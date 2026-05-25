@@ -83,12 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-// Global click sound for interactive elements
-document.addEventListener('click', (e) => {
-    if (e.target.closest('button') || e.target.closest('.app-icon') || e.target.closest('.os-btn')) {
-        playSound('click');
-    }
-});
+// (click sound listener is registered inside the main app scope below)
 
     'use strict';
 
@@ -491,6 +486,17 @@ document.addEventListener('click', (e) => {
         const btn = document.getElementById('audio-indicator');
         if (btn) btn.textContent = audioEnabled ? '🔊' : '🔇';
     }
+
+    // Expose to global scope so onclick attributes and outside listeners work
+    window.playSound = playSound;
+    window.toggleAudio = toggleAudio;
+
+    // Global click sound for all buttons
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('button') || e.target.closest('.app-icon') || e.target.closest('.service-card')) {
+            playSound('click');
+        }
+    }, true);
 
     // ===== AUTH STATE =====
     let authToken = localStorage.getItem('xp_auth_token') || null;
