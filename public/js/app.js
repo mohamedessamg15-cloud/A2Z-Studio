@@ -68,7 +68,7 @@ async function sendFloatMessage() {
         typingBubble.style.cssText = 'background:rgba(59,130,246,0.1); border-radius:12px 12px 12px 4px; padding:10px 14px; font-size:0.87rem; color:var(--text-main); max-width:85%; white-space:pre-wrap;';
         typingBubble.textContent = reply;
     } catch(e) {
-        typingBubble.textContent = currentLang === 'en' ? 'Error: Could not connect.' : 'خطأ: تعذّر الاتصال.';
+        typingBubble.textContent = currentLang === 'en' ? 'Error: ' + e.message : 'خطأ: ' + e.message;
         typingBubble.style.color = 'var(--danger)';
     }
     display.scrollTop = display.scrollHeight;
@@ -620,7 +620,7 @@ document.addEventListener('DOMContentLoaded', () => {
             display.innerHTML += `<div style="color:var(--cp-yellow);"><span style="color:var(--cp-red)">[المُصلّح]</span> ${reply}</div>`;
             playSound('open');
         } catch(e) {
-            display.innerHTML += `<div style="color:var(--cp-red);">[خطأ] فُقد الاتصال</div>`;
+            display.innerHTML += `<div style="color:var(--cp-red);">[خطأ] ` + e.message + `</div>`;
             playSound('error');
         } finally {
             btn.disabled = false; btn.textContent = 'إرسال';
