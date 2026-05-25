@@ -82,6 +82,14 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+
+// Global click sound for interactive elements
+document.addEventListener('click', (e) => {
+    if (e.target.closest('button') || e.target.closest('.app-icon') || e.target.closest('.os-btn')) {
+        playSound('click');
+    }
+});
+
     'use strict';
 
     // --- i18n (Translations) ---
