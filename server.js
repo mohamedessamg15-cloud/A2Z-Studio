@@ -162,6 +162,36 @@ app.post('/api/settings/notepad', authenticateToken, (req, res) => {
     });
 });
 
+
+// AI API
+app.post('/api/ai', async (req, res) => {
+    const { prompt, fileParts = [] } = req.body;
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+        return res.status(500).json({ error: 'GEMINI_API_KEY is not configured on the server.' });
+    }
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    const parts = [{ text: prompt }, ...fileParts];
+    const body = { contents: [{ role: "user", parts: parts }] };
+
+    try {
+        const resp = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+        if (!resp.ok) {
+            const errText = await resp.text();
+            throw new Error(`HTTP ${resp.status}: ${errText}`);
+        }
+        const data = await resp.json();
+        res.json(data);
+    } catch (e) {
+        console.error('AI Error:', e);
+        res.status(500).json({ error: e.message });
+    }
+});
+
 // Fallback to index.html for SPA (though we are mainly using query params/hashes, good practice)
 app.get(/.*/, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));

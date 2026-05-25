@@ -587,13 +587,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ===== AI CALLS =====
-    const api_key = 'AIzaSyCYis-S-G8dMWIKbaM31y_dOV0dGNl50NE';
     async function callGemini(prompt, fileParts = []) {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${api_key}`;
-        const parts = [{ text: prompt }, ...fileParts];
-        const body = {
-            contents: [{ role: "user", parts: parts }]
-        };
+        const resp = await fetch('/api/ai', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt, fileParts })
+        });
+        const data = await resp.json();
+        if (!resp.ok) throw new Error(data.error || `HTTP ${resp.status}`);
+        return data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    };
         const resp = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
