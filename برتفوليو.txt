@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ويندوز الفريلانس 96 | Freelance OS AI</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Tajawal & Cairo for Arabic Retro feel, Press Start 2P for Retro titles -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&family=Press+Start+2P&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Cairo', 'Tajawal', sans-serif;
+            background-color: #008080; /* Classic Win95 Teal */
+            overflow: hidden;
+            user-select: none;
+        }
+        
+        .retro-title {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.75rem;
+        }
+
+        /* Scanlines Overlay effect for CRT TV/Monitor feel */
+        .crt::after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            aspect-ratio: auto;
+            background-size: 100% 3px, 6px 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Classic Windows 95 Bevel effects */
+        .win95-flat {
+            background-color: #c0c0c0;
+            border: 2px solid;
+            border-color: #ffffff #808080 #808080 #ffffff;
+        }
+
+        .win95-outset {
+            background-color: #c0c0c0;
+            border: 3px solid;
+            border-color: #ffffff #404040 #404040 #ffffff;
+            box-shadow: inset 1px 1px 0px #dfdfdf, inset -1px -1px 0px #0a0a0a;
+        }
+
+        .win95-inset {
+            background-color: #ffffff;
+            border: 3px solid;
+            border-color: #808080 #ffffff #ffffff #808080;
+            box-shadow: inset 1px 1px 0px #0a0a0a, inset -1px -1px 0px #dfdfdf;
+        }
+
+        .win95-button {
+            background-color: #c0c0c0;
+            border: 2px solid;
+            border-color: #ffffff #404040 #404040 #ffffff;
+            outline: none;
+        }
+
+        .win95-button:active {
+            border-color: #404040 #ffffff #ffffff #404040;
+            padding-top: 3px;
+            padding-bottom: 1px;
+            padding-left: 3px;
+            padding-right: 1px;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 16px;
+            background-color: #dfdfdf;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #c0c0c0;
+            border: 2px solid;
+            border-color: #ffffff #404040 #404040 #ffffff;
+        }
+        ::-webkit-scrollbar-button {
+            display: block;
+            height: 16px;
+            background-color: #c0c0c0;
+            border: 2px solid;
+            border-color: #ffffff #404040 #404040 #ffffff;
+        }
+
+        /* Window dragging transition */
+        .window-active {
+            z-index: 50 !important;
+        }
+    </style>
+</head>
+<body class="crt h-screen w-screen flex flex-col justify-between overflow-hidden relative">
+
+    <!-- Desktop Area -->
+    <div class="flex-grow p-4 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 grid-rows-6 gap-6 relative overflow-hidden" id="desktop">
+        
+        <!-- Background Info text -->
+        <div class="absolute bottom-6 left-6 text-white/40 pointer-events-none text-right font-mono text-xs hidden md:block">
+            <p>SYSTEM: FREELANCE OS V9.6 AI</p>
+            <p>CPU: GEMINI FLASH INSIDE</p>
+            <p>RAM: UNLIMITED CREATIVITY</p>
+            <p>الذكاء الاصطناعي يدعم رحلتك المهنية.</p>
+        </div>
+
+        <!-- Desktop Shortcut Icons -->
+        <!-- Shortcut 1: Start Guide -->
+        <div class="flex flex-col items-center justify-center p-2 text-center w-24 h-24 rounded cursor-pointer transition hover:bg-white/10" onclick="openWindow('win-guide', 'beep')">
+            <div class="w-12 h-12 flex items-center justify-center bg-[#c0c0c0] win95-outset text-2xl mb-1">
+                📚
+            </div>
+            <span class="text-white text-xs font-bold drop-shadow-[1px_1px_1px_rgba(0,0,0,1)]">دليل البداية</span>
+        </div>
+
+        <!-- Shortcut 2: Find Work -->
+        <div class="flex flex-col items-center justify-center p-2 text-center w-24 h-24 rounded cursor-pointer transition hover:bg-white/10" onclick="openWindow('win-platforms', 'beep')">
+            <div class="w-12 h-12 flex items-center justify-center bg-[#c0c0c0] win95-outset text-2xl mb-1">
+                💼
+            </div>
+            <span class="text-white text-xs font-bold drop-shadow-[1px_1px_1px_rgba(0,0,0,1)]">أين الشغل؟</span>
+        </div>
+
+        <!-- Shortcut 3: Portfolio Builder -->
+        <div class="flex flex-col items-center justify-center p-2 text-center w-24 h-24 rounded cursor-pointer transition hover:bg-white/10" onclick="openWindow('win-portfolio', 'beep')">
+            <div class="w-12 h-12 flex items-center justify-center bg-[#c0c0c0] win95-outset text-2xl mb-1">
+                📁
+            </div>
+            <span class="text-white text-xs font-bold drop-shadow-[1px_1px_1px_rgba(0,0,0,1)]">معمل البورتفوليو</span>
+        </div>
+
+        <!-- Shortcut 4: Outreach Generator -->
+        <div class="flex flex-col items-center justify-center p-2 text-center w-24 h-24 rounded cursor-pointer transition hover:bg-white/10" onclick="openWindow('win-outreach', 'beep')">
+            <div class="w-12 h-12 flex items-center justify-center bg-[#c0c0c0] win95-outset text-2xl mb-1">
+                ✉️
+            </div>
+            <span class="text-white text-xs font-bold drop-shadow-[1px_1px_1px_rgba(0,0,0,1)]">مولد الرسائل الباردة</span>
+        </div>
+
+        <!-- Shortcut 5: LinkedIn Audit -->
+        <div class="flex flex-col items-center justify-center p-2 text-center w-24 h-24 rounded cursor-pointer transition hover:bg-white/10" onclick="openWindow('win-linkedin', 'beep')">
+            <div class="w-12 h-12 flex items-center justify-center bg-[#c0c0c0] win95-outset text-2xl mb-1">
+                🧲
+            </div>
+            <span class="text-white text-xs font-bold drop-shadow-[1px_1px_1px_rgba(0,0,0,1)]">مغناطيس لينكدان</span>
+        </div>
+
+        <!-- Shortcut 6: AI Assistant -->
+        <div class="flex flex-col items-center justify-center p-2 text-center w-24 h-24 rounded cursor-pointer transition hover:bg-white/10" onclick="openWindow('win-ai', 'success')">
+            <div class="w-12 h-12 flex items-center justify-center bg-blue-900 win95-outset text-2xl mb-1 border-blue-400">
+                🤖
+            </div>
+            <span class="text-white text-xs font-bold drop-shadow-[1px_1px_1px_rgba(0,0,0,1)]">مساعد فريلانس AI</span>
+        </div>
+
+        <!-- Shortcut 7: Sound Settings -->
+        <div class="flex flex-col items-center justify-center p-2 text-center w-24 h-24 rounded cursor-pointer transition hover:bg-white/10" onclick="toggleAudioSystem()">
+            <div class="w-12 h-12 flex items-center justify-center bg-[#c0c0c0] win95-outset text-2xl mb-1" id="sound-icon">
+                🔊
+            </div>
+            <span class="text-white text-xs font-bold drop-shadow-[1px_1px_1px_rgba(0,0,0,1)]" id="sound-status-txt">صوت النظام: يعمل</span>
+        </div>
+
+        <!-- WINDOW 1: GUIDE/INTRODUCTION (مرحبا بك في الفريلانس) -->
+        <div id="win-guide" class="win95-outset absolute top-10 right-4 left-4 md:right-10 md:left-auto md:w-[500px] hidden flex-col max-h-[80vh] z-10">
+            <div class="bg-gradient-to-r from-[#000080] to-[#1084d0] text-white p-1 flex items-center justify-between font-bold text-sm cursor-move select-none drag-bar">
+                <div class="flex items-center gap-1">
+                    <span>📝</span>
+                    <span>دليل البداية السريعة.txt</span>
+                </div>
+                <div class="flex items-center gap-1">
+                    <button class="win95-button w-5 h-5 flex items-center justify-center text-black text-xs font-bold" onclick="minimizeWindow('win-guide')">_</button>
+                    <button class="win95-button w-5 h-5 flex items-center justify-center text-black text-xs font-bold" onclick="closeWindow('win-guide', 'error')">X</button>
+                </div>
+            </div>
+            <div class="p-4 overflow-y-auto max-h-[70vh] bg-white text-black text-right space-y-4">
+                <div class="border-b-2 border-dashed border-[#808080] pb-2 mb-2">
+                    <h2 class="text-xl font-black text-blue-900">مرحباً بك في عالم الحرية المالية والمهنية المدعوم بالذكاء الاصطناعي!</h2>
+                    <p class="text-xs text-gray-500 font-mono mt-1">العمل الحر خطوة ممتازة ومربحة جداً لو اتنفذت صح بأساليب التكنولوجيا الحديثة.</p>
+                </div>
+                <p class="leading-relaxed text-sm">
+                    دخول عالم الفريلانس يتطلب الشجاعة، لكن الأكثر أهمية هو الاستراتيجية السليمة. لقد قمنا بدمج **نماذج Gemini AI** لمساعدتك في صياغة بورتفوليو مذهل، وكتابة خطابات تواصل مقنعة تجبر العميل على الرد!
+                </p>
+                <div class="grid grid-cols-1 gap-2 mt-4 text-xs font-bold">
+                    <div class="p-2 bg-blue-50 border-r-4 border-blue-900 flex items-center gap-2">
+                        <span>🤖</span>
+                        <span>مساعد فريلانس AI لحل مشاكل التسعير والتفاوض</span>
+                    </div>
+                    <div class="p-2 bg-green-50 border-r-4 border-green-800 flex items-center gap-2">
+                        <span>📁</span>
+                        <span>معمل دراسة حالة ذكي يستخلص إنجازاتك بالذكاء الاصطناعي</span>
+                    </div>
+                    <div class="p-2 bg-yellow-50 border-r-4 border-yellow-700 flex items-center gap-2">
+                        <span>✉️</span>
+                        <span>مولد الرسائل الباردة بمحتوى غير مكرر مخصص لكل عميل</span>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-600 italic">
+                    💡 انقر فوق الأيقونات الموجودة على سطح المكتب لفتح الأدوات التفاعلية وتطبيق الخطة فوراً!
+                </p>
+                <div class="flex justify-end pt-2">
+                    <button class="win95-button px-4 py-2 text-sm font-bold" onclick="closeWindow('win-guide', 'click')">حسناً، فلنبدأ!</button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- WINDOW 2: FIND WORK (أين الشغل؟) -->
+        <div id="win-platforms" class="win95-outset absolute top-20 left-4 right-4 md:left-12 md:right-auto md:w-[600px] hidden flex-col max-h-[80vh] z-10">
+            <div class="bg-gradient-to-r from-[#000080] to-[#1084d0] text-white p-1 flex items-center justify-between font-bold text-sm cursor-move select-none drag-bar">
+                <div class="flex items-center gap-1">
+                    <span>💼</span>
+                    <span>إيجاد فرص العمل.exe</span>
+                </div>
+                <div class="flex items-center gap-1">
+                    <button class="win95-button w-5 h-5 flex items-center justify-center text-black text-xs font-bold" onclick="minimizeWindow('win-platforms')">_</button>
+                    <button class="win95-button w-5 h-5 flex items-center justify-center text-black text-xs font-bold" onclick="closeWindow('win-platforms', 'error')">X</button>
+                </div>
+            </div>
+            <div class="p-4 overflow-y-auto max-h-[72vh] bg-[#f0f0f0] text-black text-right space-y-4">
+                <p class="text-sm font-bold text-gray-700">عشان تلاقي شغل، لازم تروح للمكان اللي العميل بيبحث فيه عنك. الشغل نوعين: منصات مباشرة، وتواصل مباشر.</p>
+                
+                <div class="flex border-b border-[#808080] gap-1">
+                    <button id="tab-btn-global" class="px-3 py-1 bg-[#c0c0c0] win95-outset text-xs font-bold active" onclick="switchWorkTab('global')">المنصات العالمية 🌐</button>
+                    <button id="tab-btn-arabic" class="px-3 py-1 bg-[#c0c0c0] win95-flat text-xs font-bold" onclick="switchWorkTab('arabic')">المنصات العربية 🇸🇦</button>
+                    <button id="tab-btn-direct" class="px-3 py-1 bg-[#c0c0c0] win95-flat text-xs font-bold" onclick="switchWorkTab('direct')">التواصل المباشر 🎯</button>
+                </div>
+
+                <div id="tab-global" class="win95-inset p-3 bg-white space-y-4">
+                    <p class="text-xs text-blue-800 font-bold">للمستقلين الذين يمتلكون لغة إنجليزية جيدة:</p>
+                    <div class="space-y-3">
+                        <div class="p-2 border border-gray-300 rounded bg-gray-50">
+                            <span class="font-bold text-sm text-[#008080]">Upwork:</span>
+                            <p class="text-xs text-gray-600 mt-1">المنصة الأكبر عالمياً. ممتاز جداً للعقود الطويلة والمشاريع الكبيرة ذات الميزانيات المرتفعة.</p>
+                        </div>
+                        <div class="p-2 border border-gray-300 rounded bg-gray-50">
+                            <span class="font-bold text-sm text-[#008080]">Fiverr:</span>
+                            <p class="text-xs text-gray-600 mt-1">قائم على فكرة "المبيعات السلبية". أنت تعرض خدماتك الجاهزة (Gigs)، والعميل يشتريها مباشرة دون تقديم عروض.</p>
+                        </div>
+                        <div class="p-2 border border-gray-300 rounded bg-gray-50">
+                            <span class="font-bold text-sm text-[#008080]">Freelancer:</span>
+                            <p class="text-xs text-gray-600 mt-1">منصة ممتازة للمسابقات والمشاريع، ولكن المنافسة فيها بالسعر شرسة جداً وتتطلب صبراً كبيراً.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-arabic" class="win95-inset p-3 bg-white hidden space-y-4">
+                    <p class="text-xs text-green-800 font-bold">ممتازة جداً كبداية إذا كنت تفضل التعامل باللغة العربية وتخشى حاجز اللغة الإنجليزية:</p>
+                    <div class="space-y-3">
+                        <div class="p-2 border border-gray-300 rounded bg-gray-50">
+                            <span class="font-bold text-sm text-[#008080]">مستقل (Mostaql):</span>
+                            <p class="text-xs text-gray-600 mt-1">أكبر منصة عربية للمشاريع الكبيرة. يضع العميل مشروعه وتفاصيله، وأنت تقدم عرضاً احترافياً تشرح فيه كيف ستنجزه.</p>
+                        </div>
+                        <div class="p-2 border border-gray-300 rounded bg-gray-50">
+                            <span class="font-bold text-sm text-[#008080]">خمسات (Khamsat):</span>
+                            <p class="text-xs text-gray-600 mt-1">النسخة العربية من Fiverr. ركز هنا على تقديم خدمات مصغرة ذات سعر منخفض وسرعة تنفيذ عالية لبناء تقييمات أولية.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-direct" class="win95-inset p-3 bg-white hidden space-y-4">
+                    <p class="text-xs text-red-800 font-bold">🎯 التواصل البارد والمباشر (Cold Outreaching):</p>
+                    <p class="text-xs leading-relaxed">
+                        ابحث عن الشركات الناشئة أو أصحاب البيزنس المحليين والعالميين الذين يعانون من نقص واضح في مجال تخصصك. 
+                        مثلاً: صفحة مطعم نشطة ولكن تصاميمها سيئة، أو مدونة تحتاج إلى كتابة محتوى محسن لمحركات البحث (SEO).
+                    </p>
+                    <div class="p-2 bg-yellow-50 border-r-4 border-yellow-500 text-xs">
+                        <strong>السر الذهبي:</strong> لا ترسل "أنا مصمم وأريد عملاً". أرسل "أنا مصمم، لاحظت أن منشوراتكم لا تحصل على التفاعل الكافي، قمت بإعادة تصميم نموذج يعبر عن علامتكم التجارية لزيادة تفاعل الجمهور بنسبة 30%".
+                    </div>
+                    <div class="text-center">
+                        <button class="win95-button px-3 py-1 text-xs font-bold text-blue-900 bg-[#dfdfdf]" onclick="openWindow('win-outreach', 'success')">💻 افتح أداة كتابة الرسائل الباردة الآن</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- WINDOW 3: PORTFOLIO BUILDER (معرض الأعمال) -->
+        <div id="win-portfolio" class="win95-outset absolute top-12 left-4 right-4 md:left-[20%] md:w-[700px] hidden flex-col max-h-[85vh] z-10">
+            <div class="bg-gradient-to-r from-[#000080] to-[#1084d0] text-white p-1 flex items-center justify-between font-bold text-sm cursor-move select-none drag-bar">
+                <div class="flex items-center gap-1">
+                    <span>📁</span>
+                    <span>مرتب_البورتفوليو_الذكي.bat</span>
+                </div>
+                <div class="flex items-center gap-1">
+                    <button class="win95-button w-5 h-5 flex items-center justify-center text-black text-xs font-bold" onclick="minimizeWindow('win-portfolio')">_</button>
+                    <button class="win95-button w-5 h-5 flex items-center justify-center text-black text-xs font-bold" onclick="closeWindow('win-portfolio', 'error')">X</button>
+                </div>
+            </div>
+            <div class="p-4 overflow-y-auto max-h-[75vh] bg-[#f0f0f0] text-black text-right space-y-4">
+                
+                <div class="p-3 bg-white win95-inset space-y-2">
+                    <h3 class="font-bold text-sm text-[#000080]">القوانين الذهبية لبورتفوليو يبيع خدماتك بدلاً منك:</h3>
+                    <ul class="text-xs list-disc pr-4 space-y-1 text-gray-700">
+                        <li><strong class="text-black">الجودة قبل الكمية:</strong> اختر أفضل 3 إلى 5 مشاريع فقط.</li>
+                        <li><strong class="text-black">المشاريع الوهمية (Fake Projects):</strong> لو لم يكن لديك عملاء، قم بإنشاء مشاريع افتراضية لعلامات تجارية شهيرة.</li>
+                        <li><strong class="text-black">الذكاء الاصطناعي ككاتب محترف:</strong> اكتب المعطيات البسيطة وسيقوم Gemini بصياغتها بأسلوب تسويقي رائع.</li>
+                    </ul>
+                </div>
+
+                <div class="p-3 bg-yellow-50 border-2 border-dashed border-yellow-600 rounded">
+                    <h4 class="font-black text-sm text-yellow-900 mb-2">💡 محاكي كتابة دراسة حالة احترافية (Case Study):</h4>
+                    <p class="text-xs text-gray-600 mb-3">املأ الحقول التالية ثم اختر الصياغة التقليدية أو التوليد المتطور عبر الذكاء الاصطناعي:</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                        <div>
+                            <label class="block font-bold mb-1">اسم المشروع / المجال:</label>
+                            <input id="cs-title" type="text" class="w-full p-2 border border-gray-400 font-sans text-black" placeholder="مثال: تطبيق متجر إلكتروني للملابس">
+                        </div>
+                        <div>
+                            <label class="block font-bold mb-1">العميل المستهدف أو الافتراضي:</label>
+                            <input id="cs-client" type="text" class="w-full p-2 border border-gray-400 font-sans text-black" placeholder="مثال: براند محلي للملابس الرجالية">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block font-bold mb-1">المشكلة (ما هي المشكلة التي كان يعاني منها العميل؟):</label>
+                            <textarea id="cs-problem" rows="2" class="w-full p-2 border border-gray-400 font-sans text-black" placeholder="مثال: المبيعات منخفضة وتجربة الشراء معقدة وبطيئة على الموقع القديم"></textarea>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block font-bold mb-1">الحل (كيف قمت بحل المشكلة خطوة بخطوة؟):</label>
+                            <textarea id="cs-solution" rows="2" class="w-full p-2 border border-gray-400 font-sans text-black" placeholder="مثال: أعدت تصميم واجهة المتجر كلياً وتبسيط خطوات الدفع لتصبح خطوة واحدة بدلاً من أربعة"></textarea>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block font-bold mb-1">النتيجة بالأرقام (ما الفائدة والأثر الحقيقي؟):</label>
+                            <input id="cs-result" type="text" class="w-full p-2 border border-gray-400 font-sans text-black" placeholder="مثال: زيادة معدل التحويل والبيع بنسبة 45% وتوفير الوقت">
+                        </div>
+                    </div>
+
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <button class="win95-button bg-gray-300 text-black font-bold px-4 py-2 text-xs" onclick="generateCaseStudy()">صياغة تقليدية 📝</button>
+                        <button class="win95-button bg-blue-900 text-white font-bold px-4 py-2 text-xs flex items-center gap-1.5" onclick="generateCaseStudyAI()">
+                            <span>🤖</span>
+                            <span id="ai-cs-btn-text">توليد احترافي بـ Gemini AI</span>
+                        </button>
+                        <button class="win95-button bg-gray-300 text-black font-bold px-3 py-2 text-xs" onclick="clearCaseStudyForm()">إعادة تعيين</button>
+                    </div>
+                </div>
+
+                <div id="cs-result-panel" class="hidden p-3 bg-white win95-inset space-y-3">
+                    <div class="flex items-center justify-between border-b border-gray-300 pb-1">
+                        <span class="text-xs font-mono text-green-700" id="cs-status-indicator">جاهز للعرض في بورتفوليو الخاص بك!</span>
+                        <button class="win95-button px-2 py-1 text-xs font-bold" onclick="copyCaseStudyToClipboard()">نسخ النص 📋</button>
+                    </div>
+                    <div id="cs-formatted-text" class="text-xs leading-relaxed text-gray-800 bg-gray-50 p-3 rounded font-sans whitespace-pre-line select-text">
+                        <!-- Filled dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- WINDOW 4: OUTREACH GENERATOR (مولد رسائل التواصل البارد) -->
+        <div id="win-outreach" class="win95-outset absolute top-16 left-4 right-4 md:right-[20%] md:left-auto md:w-[650px] hidden flex-col max-h-[85vh] z-10">
+            <div class="bg-gradient-to-r from-[#000080] to-[#1084d0] text-white p-1 flex items-center justify-between font-bold text-sm cursor-move select-none drag-bar">
+                <div class="flex items-center gap-1">
+                    <span>✉️</span>
+                    <span>مولد_الرسائل_المغناطيسية.exe</span>
+                </div>
+                <div class="flex items-center gap-1">
+                    <button class="win95-button w-5 h-5 flex items-center justify-center text-black text-xs font-bold" onclick="minimizeWindow('win-outreach')">_</button>
+                    <button class="win95-button w-5 h-5 flex items-center justify-center text-black text-xs font-bold" onclick="closeWindow('win-outreach', 'error')">X</button>
+                </div>
+            </div>
+            <div class="p-4 overflow-y-auto max-h-[75vh] bg-[#f0f0f0] text-black text-right space-y-4">
+                <div class="p-3 bg-white win95-inset text-xs">
+                    <p class="font-bold text-red-900">كيف تستخدم التواصل البارد لزيادة مبيعاتك؟</p>
+                    <p class="text-gray-600 mt-1">تحديد العميل ومشاكله بدقة وتقديم حل فوري ومجاني كبداية، هو الطريقة الوحيدة ليرد العميل على رسالتك.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                    <div>
+                        <label class="block font-bold mb-1">مجالك التقني:</label>
+                        <select id="out-niche" class="w-full p-2 border border-gray-400 text-black" onchange="updateOutreachExamples()">
+                            <option value="design">تصميم جرافيك وهوية بصرية</option>
+                            <option value="copywriting">كتابة محتوى وإعلانات</option>
+                            <option value="webdev">برمجة وتطوير مواقع ويب</option>
+                            <option value="video">مونتاج وصناعة الفيديوهات</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-1">اسم العميل / اسم البراند المستهدف:</label>
+                        <input id="out-client-name" type="text" class="w-full p-2 border border-gray-400 text-black" placeholder="مثال: مطعم شاورما البركة">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block font-bold mb-1">المشكلة التي لاحظتها على عملهم:</label>
+                        <input id="out-observed-problem" type="text" class="w-full p-2 border border-gray-400 text-black" placeholder="مثال: انخفاض جودة تصاميم الانستغرام لديهم">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block font-bold mb-1">عرضك المجاني السريع لجذب انتباههم:</label>
+                        <input id="out-free-offer" type="text" class="w-full p-2 border border-gray-400 text-black" placeholder="مثال: تصميم مجاني لمنشور العيد القادم لتجربة الجودة">
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap gap-2">
+                    <button class="win95-button bg-gray-300 text-black font-bold px-4 py-2 text-xs" onclick="generateOutreachTemplate()">صيغة سريعة 🚀</button>
+                    <button class="win95-button bg-blue-900 text-white font-bold px-4 py-2 text-xs flex items-center gap-1.5" onclick="generateOutreachAI()">
+                        <span>🤖</span>
+                        <span id="ai-out-btn-text">توليد رسالة مخصصة بـ Gemini AI</span>
+                    </button>
+                </div>
+
+                <div id="outreach-result-panel" class="hidden p-3 bg-white win95-inset space-y-3">
+                    <div class="flex items-center justify-between border-b border-gray-300 pb-1">
+                        <span class="text-xs font-bold text-blue-900" id="outreach-title-indicator">تفضل صيغة الإرسال الجاهزة للنسخ:</span>
+                        <button class="win95-button px-2 py-1 text-xs font-bold" onclick="copyOutreachToClipboard()">نسخ الرسالة 📋</button>
+                    </div>
+                    <textarea id="outreach-output-text" rows="8" class="w-full p-2 bg-gray-50 border border-gray-300 text-xs font-sans leading-relaxed text-black select-text" dir="rtl"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- WINDOW 5: LINKEDIN MAGNET (مغناطيس لينكدان للعملاء) -->
+        <div id="win-linkedin" class="win95-outset absolute top-24 left-4 right-4 md:left-[25%] md:w-[620px] hidden flex-col max-h-[85vh] z-10">
+            <div class="bg-gradient-to-r from-[#000080] to-[#1084d0] text-white p-1 flex items-center justify-between font-bold text-sm cursor-move select-none drag-bar">
+                <div class="flex items-center gap-1">
+                    <span>🧲</span>
+                    <span>مقياس_مغناطيس_لينكدإن.dll</span>
+                </div>
+                <div class="flex items-center gap-1">
+                    <button class="win95-button w-5 h-5 flex items-center justify-center text-black text-xs font-bold" onclick="minimizeWindow('win-linkedin')">_</button>
+                    <button class="win95-button w-5 h-5 flex items-center justify-center text-black text-xs font-bold" onclick="closeWindow('win-linkedin', 'error')">X</button>
+                </div>
+            </div>
+            <div class="p-4 overflow-y-auto max-h-[75vh] bg-[#f0f0f0] text-black text-right space-y-4">
+                <div class="p-3 bg-blue-900 text-white rounded text-xs space-y-1">
+                    <h3 class="font-black text-sm">اجعل بروفايلك مغناطيس يطارد العميل بدلاً من مطاردته!</h3>
+                    <p class="text-blue-100">العميل عندما يدخل حسابك يحتاج لمعرفة مهاراتك وقدرتك على حل مشاكله في أول 5 ثوانٍ فقط.</p>
+                </div>
+
+                <div class="p-3 bg-white win95-inset space-y-3">
+                    <h4 class="font-bold text-xs text-gray-800 border-b pb-1">📊 اختبار التقييم التفاعلي لبروفايلك:</h4>
+                    <p class="text-[11px] text-gray-500">ضع علامة صح أمام الخطوات التي قمت بتجهيزها حالياً في ملفك الشخصي:</p>
+                    
+                    <div class="space-y-2 text-xs">
+                        <label class="flex items-start gap-2 cursor-pointer p-1.5 hover:bg-gray-50 rounded">
+                            <input type="checkbox" id="li-check-photo" class="mt-1" onchange="calculateLinkedInScore()">
+                            <div>
+                                <span class="font-bold block text-blue-900">1. الصورة الشخصية والـ Banner</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-2 cursor-pointer p-1.5 hover:bg-gray-50 rounded">
+                            <input type="checkbox" id="li-check-headline" class="mt-1" onchange="calculateLinkedInScore()">
+                            <div>
+                                <span class="font-bold block text-blue-900">2. العنوان الوظيفي (Headline)</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-2 cursor-pointer p-1.5 hover:bg-gray-50 rounded">
+                            <input type="checkbox" id="li-check-featured" class="mt-1" onchange="calculateLinkedInScore()">
+                            <div>
+                                <span class="font-bold block text-blue-900">3. قسم الإنجازات المميزة (Featured Section)</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-2 cursor-pointer p-1.5 hover:bg-gray-50 rounded">
+                            <input type="checkbox" id="li-check-about" class="mt-1" onchange="calculateLinkedInScore()">
+                            <div>
+                                <span class="font-bold block text-blue-900">4. نبذة "عني" (About Section) صائدة للعملاء</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-2 cursor-pointer p-1.5 hover:bg-gray-50 rounded">
+                            <input type="checkbox" id="li-check-activity" class="mt-1" onchange="calculateLinkedInScore()">
+                            <div>
+                                <span class="font-bold block text-blue-900">5. النشر المنتظم لصناعة الهوية الشخصية</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="p-3 bg-gray-200 border border-gray-400 flex items-center justify-between text-xs">
+                    <div>
+                        <span class="font-bold">مجموع نقاط المغناطيسية:</span>
+                        <div id="li-score-bar" class="w-48 h-4 bg-gray-400 win95-inset mt-1 relative overflow-hidden">
+                            <div id="li-score-fill" class="h-full bg-blue-900 w-0 transition-all duration-300"></div>
+                        </div>
+                    </div>
+                    <div class="text-left font-mono font-bold">
+                        <span id="li-score-percent">0%</span>
+                        <div id="li-evaluation-label" class="text-[10px] text-red-600 font-sans mt-0.5">ضعيف جداً ❌</div>
+                    </div>
+                </div>
+
+                <!-- AI Bio Generator Integration inside LinkedIn Magnet -->
+                <div class="p-3 bg-purple-50 border border-purple-300 rounded text-xs space-y-2">
+                    <h4 class="font-bold text-purple-950 flex items-center gap-1.5">
+                        <span>🤖</span>
+                        <span>مولد بايو وعنوان لينكدإن الذكي:</span>
+                    </h4>
+                    <p class="text-[11px] text-purple-800">ادخل مهاراتك الأساسية وسيقوم Gemini بكتابة عنوان ونبذة احترافية تجذب مدراء التوظيف والعملاء:</p>
+                    <input id="li-input-skills" type="text" class="w-full p-2 border border-purple-300 text-black font-sans" placeholder="مثال: تطوير مواقع Laravel و React، تصميم تجربة المستخدم">
+                    <button class="win95-button bg-purple-900 text-white font-bold px-3 py-1.5 text-xs" onclick="generateLinkedInBioAI()">توليد بايو احترافي 🚀</button>
+                    
+                    <div id="li-bio-result" class="hidden p-2.5 bg-white border border-purple-200 text-gray-800 font-sans whitespace-pre-line select-text text-[11px] leading-relaxed">
+                        <!-- Filled dynamically -->
+                    </div>
+                </div>
+
+                <div id="li-advice-box" class="p-3 bg-yellow-100 border border-yellow-400 text-xs text-gray-700 hidden">
+                    <!-- Advice goes here dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- WINDOW 6: AI ASSISTANT (مساعد فريلانس 96 الذكي) -->
+        <div id="win-ai" class="win95-outset absolute top-16 left-4 right-4 md:left-[30%] md:w-[500px] hidden flex-col max-h-[85vh] z-10">
+            <div class="bg-gradient-to-r from-[#000080] to-[#1084d0] text-white p-1 flex items-center justify-between font-bold text-sm cursor-move select-none drag-bar">
+                <div class="flex items-center gap-1">
+                    <span>🤖</span>
+                    <span>مساعد_الذكاء_الاصطناعي_96.exe</span>
+                </div>
+                <div class="flex items-center gap-1">
+                    <button class="win95-button w-5 h-5 flex items-center justify-center text-black text-xs font-bold" onclick="minimizeWindow('win-ai')">_</button>
+                    <button class="win95-button w-5 h-5 flex items-center justify-center text-black text-xs font-bold" onclick="closeWindow('win-ai', 'error')">X</button>
+                </div>
+            </div>
+            <!-- Window Content -->
+            <div class="p-4 bg-[#f0f0f0] text-black text-right flex flex-col h-[65vh] justify-between">
+                <!-- Clippy Retro Greeting Banner -->
+                <div class="flex items-start gap-3 bg-yellow-50 border border-yellow-400 p-2 text-xs mb-2">
+                    <div class="text-3xl">📎</div>
+                    <div>
+                        <strong class="text-yellow-900 block font-bold">مرحباً! أنا "دبّوس الذكي" مساعدك في العمل الحر!</strong>
+                        <span class="text-gray-600 text-[11px]">اسألني عن طرق جلب العملاء، كتابة العروض، أو حل مشاكل التسعير الصعبة!</span>
+                    </div>
+                </div>
+
+                <!-- Chat Display Area -->
+                <div id="ai-chat-display" class="win95-inset bg-white p-3 overflow-y-auto flex-grow text-xs space-y-3 select-text" style="max-height: 40vh;">
+                    <div class="p-2 rounded bg-gray-100">
+                        <span class="font-bold text-blue-900">📎 دبّوس:</span>
+                        <p class="mt-1">أهلاً بك يا بطل! كيف يمكنني مساعدتك اليوم في تسيير أعمالك الحرة؟ إليك بعض الاقتراحات الجاهزة التي يمكنك النقر عليها والبدء فوراً:</p>
+                        
+                        <!-- Quick Prompt Buttons -->
+                        <div class="mt-2 flex flex-col gap-1 text-[11px]">
+                            <button class="text-right text-blue-800 hover:underline" onclick="sendQuickPrompt('كيف أحصل على أول عميل لي بسرعة؟')">📍 كيف أحصل على أول عميل لي بسرعة؟</button>
+                            <button class="text-right text-blue-800 hover:underline" onclick="sendQuickPrompt('كيف أقوم بتسعير خدماتي بطريقة تضمن لي الربح والقبول؟')">📍 كيف أقوم بتسعير خدماتي؟</button>
+                            <button class="text-right text-blue-800 hover:underline" onclick="sendQuickPrompt('كيف أتصرف مع عميل يرفض الدفع بحجة التعديلات اللانهائية؟')">📍 العميل يرفض الدفع بحجة التعديلات!</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Message Input Form -->
+                <div class="mt-3 flex gap-2">
+                    <input id="ai-chat-input" type="text" class="flex-grow p-2 win95-inset text-xs font-sans text-black" placeholder="اكتب سؤالك هنا بخصوص العمل الحر..." onkeypress="handleChatKeyPress(event)">
+                    <button id="ai-send-btn" class="win95-button bg-[#c0c0c0] px-4 py-2 text-xs font-bold" onclick="sendChatMessage()">إرسال 🚀</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ERROR/POPUP MESSAGES CONTAINER (Retro Alert Dialog) -->
+    <div id="retro-alert" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 bg-[#c0c0c0] win95-outset z-[999] p-4 text-black text-right hidden">
+        <div class="flex items-center gap-2 mb-3">
+            <span class="text-xl">⚠️</span>
+            <span class="font-bold text-sm" id="retro-alert-title">تنبيه النظام</span>
+        </div>
+        <p class="text-xs text-gray-800 leading-relaxed mb-4" id="retro-alert-text">رسالة تنبيه تجريبية.</p>
+        <div class="flex justify-end gap-2">
+            <button class="win95-button px-4 py-1.5 text-xs font-bold font-sans" onclick="closeRetroAlert()">موافق</button>
+        </div>
+    </div>
+
+    <!-- Footer / Windows Taskbar -->
+    <div class="h-12 bg-[#c0c0c0] border-t-2 border-white flex items-center justify-between px-2 relative z-50">
+        <!-- Start Button & Quick Actions -->
+        <div class="flex items-center gap-2 h-full">
+            <button class="win95-button px-3 h-8 flex items-center gap-1.5 font-black text-sm" id="btn-start-menu" onclick="toggleStartMenu()">
+                <span class="text-base">🚀</span>
+                <span>ابدأ الآن</span>
+            </button>
+            
+            <!-- Quick Active Windows Icons indicators -->
+            <div class="hidden md:flex items-center gap-1.5 h-full py-1">
+                <button id="indicator-win-guide" class="win95-flat px-2 h-full text-xs font-bold hidden flex items-center gap-1" onclick="focusOrToggle('win-guide')">
+                    <span>📝</span>
+                    <span>دليل البداية</span>
+                </button>
+                <button id="indicator-win-platforms" class="win95-flat px-2 h-full text-xs font-bold hidden flex items-center gap-1" onclick="focusOrToggle('win-platforms')">
+                    <span>💼</span>
+                    <span>أين الشغل؟</span>
+                </button>
+                <button id="indicator-win-portfolio" class="win95-flat px-2 h-full text-xs font-bold hidden flex items-center gap-1" onclick="focusOrToggle('win-portfolio')">
+                    <span>📁</span>
+                    <span>معمل البورتفوليو</span>
+                </button>
+                <button id="indicator-win-outreach" class="win95-flat px-2 h-full text-xs font-bold hidden flex items-center gap-1" onclick="focusOrToggle('win-outreach')">
+                    <span>✉️</span>
+                    <span>مولد الرسائل</span>
+                </button>
+                <button id="indicator-win-linkedin" class="win95-flat px-2 h-full text-xs font-bold hidden flex items-center gap-1" onclick="focusOrToggle('win-linkedin')">
+                    <span>🧲</span>
+                    <span>مغناطيس لينكدان</span>
+                </button>
+                <button id="indicator-win-ai" class="win95-flat px-2 h-full text-xs font-bold hidden flex items-center gap-1" onclick="focusOrToggle('win-ai')">
+                    <span>🤖</span>
+                    <span>مساعد AI</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Clock & Sound Indicator Area -->
+        <div class="win95-inset px-2 py-1 flex items-center gap-3 bg-gray-200 text-xs font-mono font-bold">
+            <span id="taskbar-sound-indicator" class="cursor-pointer" onclick="toggleAudioSystem()" title="كتم/تفعيل صوت النظام">🔊</span>
+            <span id="taskbar-clock">21:57 PM</span>
+        </div>
+    </div>
+
+    <!-- Retro Start Menu Panel -->
+    <div id="start-menu" class="absolute bottom-12 right-2 w-64 bg-[#c0c0c0] win95-outset z-[100] hidden flex-col">
+        <!-- Blue Side Banner with "Freelance 96" text rotated -->
+        <div class="flex">
+            <div class="bg-blue-900 w-8 text-white flex items-center justify-center p-1 select-none font-bold">
+                <p class="transform -rotate-90 origin-center whitespace-nowrap text-xs tracking-wider" style="font-family: 'Press Start 2P', monospace;">FREELANCE 96</p>
+            </div>
+            <!-- Menu Options list -->
+            <div class="flex-grow flex flex-col p-1 text-right text-xs">
+                <div class="p-2 hover:bg-blue-900 hover:text-white cursor-pointer flex items-center gap-2 border-b border-gray-300" onclick="runAllPrograms()">
+                    <span>🏁</span>
+                    <div>
+                        <p class="font-bold">تشغيل الخطة كاملة</p>
+                        <p class="text-[10px] text-gray-500 hover:text-blue-200">افتح كافة التطبيقات معاً</p>
+                    </div>
+                </div>
+                <div class="p-2 hover:bg-blue-900 hover:text-white cursor-pointer flex items-center gap-2" onclick="openWindow('win-guide', 'click'); toggleStartMenu()">
+                    <span>📝</span>
+                    <span>دليل البداية السريعة</span>
+                </div>
+                <div class="p-2 hover:bg-blue-900 hover:text-white cursor-pointer flex items-center gap-2" onclick="openWindow('win-platforms', 'click'); toggleStartMenu()">
+                    <span>💼</span>
+                    <span>دليل المنصات والفرص</span>
+                </div>
+                <div class="p-2 hover:bg-blue-900 hover:text-white cursor-pointer flex items-center gap-2" onclick="openWindow('win-portfolio', 'click'); toggleStartMenu()">
+                    <span>📁</span>
+                    <span>معمل دراسات الحالة للبورتفوليو</span>
+                </div>
+                <div class="p-2 hover:bg-blue-900 hover:text-white cursor-pointer flex items-center gap-2" onclick="openWindow('win-outreach', 'click'); toggleStartMenu()">
+                    <span>✉️</span>
+                    <span>مولد رسائل التواصل المباشر</span>
+                </div>
+                <div class="p-2 hover:bg-blue-900 hover:text-white cursor-pointer flex items-center gap-2" onclick="openWindow('win-linkedin', 'click'); toggleStartMenu()">
+                    <span>🧲</span>
+                    <span>مقياس قوة ملف LinkedIn</span>
+                </div>
+                <div class="p-2 hover:bg-blue-900 hover:text-white cursor-pointer flex items-center gap-2" onclick="openWindow('win-ai', 'click'); toggleStartMenu()">
+                    <span>🤖</span>
+                    <span>مساعد الذكاء الاصطناعي الذكي</span>
+                </div>
+                <hr class="my-1 border-gray-400">
+                <div class="p-2 hover:bg-red-900 hover:text-white cursor-pointer flex items-center gap-2 text-red-800" onclick="showCreditAlert()">
+                    <span>ℹ️</span>
+                    <span>حول هذا النظام</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // System Audio state variable
+        let audioSystemEnabled = true;
+        let audioCtx = null;
+
+        // Initialize Audio Context on user interaction to abide by browser security policies
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        // Web Audio Synthesizer sound generator
+        function playRetroSound(type) {
+            if (!audioSystemEnabled) return;
+            initAudio();
+            if (!audioCtx) return;
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            const now = audioCtx.currentTime;
+
+            if (type === 'beep') {
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(150, now);
+                osc.frequency.exponentialRampToValueAtTime(800, now + 0.1);
+                gain.gain.setValueAtTime(0.05, now);
+                gain.gain.linearRampToValueAtTime(0, now + 0.1);
+                osc.start(now);
+                osc.stop(now + 0.12);
+            } else if (type === 'success') {
+                // Happy 8-bit sound
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(440, now);
+                osc.frequency.setValueAtTime(554.37, now + 0.08);
+                osc.frequency.setValueAtTime(659.25, now + 0.16);
+                osc.frequency.setValueAtTime(880, now + 0.24);
+                gain.gain.setValueAtTime(0.05, now);
+                gain.gain.linearRampToValueAtTime(0.05, now + 0.3);
+                gain.gain.linearRampToValueAtTime(0, now + 0.45);
+                osc.start(now);
+                osc.stop(now + 0.45);
+            } else if (type === 'error') {
+                // Flat Error chord
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(120, now);
+                osc.frequency.setValueAtTime(110, now + 0.05);
+                gain.gain.setValueAtTime(0.08, now);
+                gain.gain.linearRampToValueAtTime(0, now + 0.25);
+                osc.start(now);
+                osc.stop(now + 0.25);
+            } else if (type === 'click') {
+                // Subdued click
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(600, now);
+                gain.gain.setValueAtTime(0.05, now);
+                gain.gain.linearRampToValueAtTime(0, now + 0.04);
+                osc.start(now);
+                osc.stop(now + 0.04);
+            }
+        }
+
+        // Toggle sound via desktop / taskbar icon
+        function toggleAudioSystem() {
+            audioSystemEnabled = !audioSystemEnabled;
+            const soundIndicator = document.getElementById('taskbar-sound-indicator');
+            const soundIcon = document.getElementById('sound-icon');
+            const soundText = document.getElementById('sound-status-txt');
+            
+            if (audioSystemEnabled) {
+                soundIndicator.innerText = "🔊";
+                soundIcon.innerText = "🔊";
+                soundText.innerText = "صوت النظام: يعمل";
+                playRetroSound('success');
+            } else {
+                soundIndicator.innerText = "🔇";
+                soundIcon.innerText = "🔇";
+                soundText.innerText = "صوت النظام: مكتوم";
+            }
+        }
+
+        // Open/Close System Alert box (instead of using block window alert)
+        function triggerRetroAlert(title, text, type = 'beep') {
+            document.getElementById('retro-alert-title').innerText = title;
+            document.getElementById('retro-alert-text').innerText = text;
+            const alertBox = document.getElementById('retro-alert');
+            alertBox.classList.remove('hidden');
+            playRetroSound(type);
+        }
+
+        function closeRetroAlert() {
+            document.getElementById('retro-alert').classList.add('hidden');
+            playRetroSound('click');
+        }
+
+        // Real-time Clock Taskbar display
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'مساءً' : 'صباحاً';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            minutes = minutes < 10 ? '0'+minutes : minutes;
+            const strTime = hours + ':' + minutes + ' ' + ampm;
+            document.getElementById('taskbar-clock').innerText = strTime;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Window Stack tracking for depth management
+        let windowZIndex = 10;
+
+        function openWindow(winId, soundType = 'beep') {
+            const win = document.getElementById(winId);
+            if (!win) return;
+            
+            // Play retro feedback
+            playRetroSound(soundType);
+
+            // Show window
+            win.classList.remove('hidden');
+            win.classList.add('flex');
+            
+            // Bring to top
+            windowZIndex += 1;
+            win.style.zIndex = windowZIndex;
+
+            // Mark window tab indicators active
+            const indicator = document.getElementById('indicator-' + winId);
+            if (indicator) {
+                indicator.classList.remove('hidden');
+                indicator.classList.remove('win95-flat');
+                indicator.classList.add('win95-outset', 'bg-white', 'text-blue-900');
+            }
+        }
+
+        function closeWindow(winId, soundType = 'click') {
+            const win = document.getElementById(winId);
+            if (!win) return;
+            
+            playRetroSound(soundType);
+            win.classList.add('hidden');
+            win.classList.remove('flex');
+
+            const indicator = document.getElementById('indicator-' + winId);
+            if (indicator) {
+                indicator.classList.add('hidden');
+            }
+        }
+
+        function minimizeWindow(winId) {
+            playRetroSound('click');
+            const win = document.getElementById(winId);
+            if (win) {
+                win.classList.add('hidden');
+                win.classList.remove('flex');
+                
+                // Dim taskbar button
+                const indicator = document.getElementById('indicator-' + winId);
+                if (indicator) {
+                    indicator.classList.remove('win95-outset', 'bg-white', 'text-blue-900');
+                    indicator.classList.add('win95-flat');
+                }
+            }
+        }
+
+        // Toggle focus when clicking Taskbar indicator
+        function focusOrToggle(winId) {
+            const win = document.getElementById(winId);
+            if (!win) return;
+
+            if (win.classList.contains('hidden')) {
+                openWindow(winId, 'click');
+            } else {
+                minimizeWindow(winId);
+            }
+        }
+
+        // Toggle start menu
+        function toggleStartMenu() {
+            const startMenu = document.getElementById('start-menu');
+            if (startMenu.classList.contains('hidden')) {
+                startMenu.classList.remove('hidden');
+                startMenu.classList.add('flex');
+                playRetroSound('click');
+            } else {
+                startMenu.classList.add('hidden');
+                startMenu.classList.remove('flex');
+            }
+        }
+
+        // Run all programs from Start Menu
+        function runAllPrograms() {
+            toggleStartMenu();
+            openWindow('win-guide', 'click');
+            openWindow('win-platforms', 'click');
+            openWindow('win-portfolio', 'click');
+            openWindow('win-outreach', 'click');
+            openWindow('win-linkedin', 'success');
+            openWindow('win-ai', 'success');
+        }
+
+        // Show Credit Information Dialog
+        function showCreditAlert() {
+            toggleStartMenu();
+            triggerRetroAlert(
+                "بوابة العمل الحر 96",
+                "تم تصميم وتطوير هذا النظام الإبداعي بالكامل بواسطة محمد عصام.\n\nنظام تشغيل ريترو متكامل يعتمد على HTML و Tailwind CSS و JavaScript لمساعدة المبتدئين العرب في شق طريقهم للحرية المالية والعمل الحر بدعم من ذكاء Gemini الاصطناعي.",
+                "success"
+            );
+        }
+
+        // Switch Tabs in the "Where's Work" app window
+        function switchWorkTab(tabName) {
+            playRetroSound('click');
+            
+            // Hide all tab panels
+            document.getElementById('tab-global').classList.add('hidden');
+            document.getElementById('tab-arabic').classList.add('hidden');
+            document.getElementById('tab-direct').classList.add('hidden');
+
+            // Reset tab buttons styling
+            document.getElementById('tab-btn-global').className = "px-3 py-1 bg-[#c0c0c0] win95-flat text-xs font-bold";
+            document.getElementById('tab-btn-arabic').className = "px-3 py-1 bg-[#c0c0c0] win95-flat text-xs font-bold";
+            document.getElementById('tab-btn-direct').className = "px-3 py-1 bg-[#c0c0c0] win95-flat text-xs font-bold";
+
+            // Show current panel and update active tab style
+            if (tabName === 'global') {
+                document.getElementById('tab-global').classList.remove('hidden');
+                document.getElementById('tab-btn-global').className = "px-3 py-1 bg-[#c0c0c0] win95-outset text-xs font-bold active";
+            } else if (tabName === 'arabic') {
+                document.getElementById('tab-arabic').classList.remove('hidden');
+                document.getElementById('tab-btn-arabic').className = "px-3 py-1 bg-[#c0c0c0] win95-outset text-xs font-bold active";
+            } else if (tabName === 'direct') {
+                document.getElementById('tab-direct').classList.remove('hidden');
+                document.getElementById('tab-btn-direct').className = "px-3 py-1 bg-[#c0c0c0] win95-outset text-xs font-bold active";
+            }
+        }
+
+        // Main Gemini API integration function
+        async function callGemini(systemPrompt, userQuery) {
+            const apiKey = ""; // Left empty as required by Canvas instructions.
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                }
+            };
+            
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (!response.ok) {
+                    throw new Error("فشل الاتصال بخوادم Gemini API");
+                }
+                
+                const result = await response.json();
+                return result.candidates?.[0]?.content?.parts?.[0]?.text || "لم نتمكن من الحصول على رد مفيد.";
+            } catch (error) {
+                console.error("Gemini API Error:", error);
+                return null;
+            }
+        }
+
+        // AI Portfolio enhancement logic
+        async function generateCaseStudyAI() {
+            const title = document.getElementById('cs-title').value.trim();
+            const client = document.getElementById('cs-client').value.trim();
+            const problem = document.getElementById('cs-problem').value.trim();
+            const solution = document.getElementById('cs-solution').value.trim();
+            const result = document.getElementById('cs-result').value.trim();
+
+            if (!title || !problem || !solution || !result) {
+                triggerRetroAlert("خطأ في الإدخال", "يرجى ملء الحقول الأساسية أولاً بالحد الأدنى من الكلمات لتتمكن أداة Gemini من توسيعها وصياغتها.", "error");
+                return;
+            }
+
+            const btnText = document.getElementById('ai-cs-btn-text');
+            btnText.innerText = "جاري الصياغة والتحليل عبر AI...";
+            playRetroSound('click');
+
+            const systemPrompt = "أنت كاتب دراسات حالة (Case Studies) وبورتفوليو احترافي في منصات العمل الحر. مهمتك تحويل المدخلات البسيطة إلى دراسة حالة جذابة جداً ومكتوبة بلغة عربية تسويقية ومحفزة وجاذبة للعملاء، مقسمة لثلاثة عناصر: المشكلة، الحل، والنتائج مع استخدام إيموجيز بشكل لطيف.";
+            const userQuery = `عنوان المشروع: ${title}\nالعميل: ${client || "عام"}\nالمشكلة: ${problem}\nالحل المنفذ: ${solution}\nالنتيجة المحققة: ${result}`;
+
+            const aiResponse = await callGemini(systemPrompt, userQuery);
+            btnText.innerText = "توليد احترافي بـ Gemini AI";
+
+            if (aiResponse) {
+                document.getElementById('cs-formatted-text').innerText = aiResponse;
+                document.getElementById('cs-status-indicator').innerText = "تمت الصياغة والتحسين بذكاء Gemini الاصطناعي! ✨";
+                document.getElementById('cs-result-panel').classList.remove('hidden');
+                document.getElementById('cs-result-panel').scrollIntoView({ behavior: 'smooth' });
+                playRetroSound('success');
+            } else {
+                triggerRetroAlert("خطأ في الاتصال", "حدثت مشكلة أثناء الاتصال بالذكاء الاصطناعي. يرجى تجربة الصياغة التقليدية.", "error");
+            }
+        }
+
+        // Traditional Case Study Generator
+        function generateCaseStudy() {
+            const title = document.getElementById('cs-title').value.trim();
+            const client = document.getElementById('cs-client').value.trim();
+            const problem = document.getElementById('cs-problem').value.trim();
+            const solution = document.getElementById('cs-solution').value.trim();
+            const result = document.getElementById('cs-result').value.trim();
+
+            if (!title || !problem || !solution || !result) {
+                triggerRetroAlert("خطأ في الإدخال", "يرجى ملء الحقول الأساسية: العنوان، المشكلة، الحل، والنتيجة لصياغة دراسة حالة كاملة.", "error");
+                return;
+            }
+
+            const formattedText = `📁 دراسة حالة مشروع: ${title}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+👥 العميل: ${client ? client : 'مشروع افتراضي تطبيقي لإعادة هندسة الحلول'}
+
+⚠️ المشكلة الأساسية التي واجهتها العلامة التجارية:
+"${problem}"
+
+🛠️ الحل والخطوات المنهجية التي اتخذتها:
+"${solution}"
+
+📈 النتائج المحققة والتأثير الفعلي بالأرقام:
+"✨ ${result}"
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
+
+            document.getElementById('cs-formatted-text').innerText = formattedText;
+            document.getElementById('cs-status-indicator').innerText = "تمت الصياغة التقليدية بنجاح!";
+            document.getElementById('cs-result-panel').classList.remove('hidden');
+            document.getElementById('cs-result-panel').scrollIntoView({ behavior: 'smooth' });
+            playRetroSound('success');
+        }
+
+        function clearCaseStudyForm() {
+            playRetroSound('click');
+            document.getElementById('cs-title').value = '';
+            document.getElementById('cs-client').value = '';
+            document.getElementById('cs-problem').value = '';
+            document.getElementById('cs-solution').value = '';
+            document.getElementById('cs-result').value = '';
+            document.getElementById('cs-result-panel').classList.add('hidden');
+        }
+
+        function copyCaseStudyToClipboard() {
+            const textToCopy = document.getElementById('cs-formatted-text').innerText;
+            const el = document.createElement('textarea');
+            el.value = textToCopy;
+            el.setAttribute('readonly', '');
+            el.style.position = 'absolute';
+            el.style.left = '-9999px';
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+
+            playRetroSound('success');
+            triggerRetroAlert("تم بنجاح! 🎉", "تم نسخ دراسة الحالة الخاصة بك إلى الحافظة. يمكنك الآن لصقها في معرض أعمالك مباشرة.", "success");
+        }
+
+        // Outreach AI Generator
+        async function generateOutreachAI() {
+            const niche = document.getElementById('out-niche').value;
+            const clientName = document.getElementById('out-client-name').value.trim() || "العميل المستهدف";
+            const problem = document.getElementById('out-observed-problem').value.trim();
+            const freeOffer = document.getElementById('out-free-offer').value.trim();
+
+            if (!problem || !freeOffer) {
+                triggerRetroAlert("مدخلات غير كافية", "يرجى كتابة لمحة عن المشكلة والعرض المجاني ليتمكن Gemini من بناء خطة إرسال مخصصة.", "error");
+                return;
+            }
+
+            const btnText = document.getElementById('ai-out-btn-text');
+            btnText.innerText = "جاري البناء بذكاء Gemini...";
+            playRetroSound('click');
+
+            let specialtyText = "";
+            if (niche === 'design') specialtyText = "مصمم هوية بصرية";
+            else if (niche === 'copywriting') specialtyText = "كاتب محتوى تسويقي ومبيعات";
+            else if (niche === 'webdev') specialtyText = "مطور ومصمم مواقع مبيعات";
+            else if (niche === 'video') specialtyText = "محرر ومصمم فيديو ترويجي";
+
+            const systemPrompt = "أنت خبير تواصل بارد (Cold Outreach) وإقناع أصحاب الأعمال. اكتب رسالة تواصل بارد احترافية ومقنعة جداً بأسلوب مهذب وممتع يعرض المشكلة بشكل ملموس والحل الذي يقدمه المستقل بمهارة، مع توضيح العرض المجاني لإثارة اهتمامه وتحفيزه على الرد، بدون مبالغة أو استخدام صياغات مبتذلة مكررة.";
+            const userQuery = `المستقل يعمل في مجال: ${specialtyText}\nاسم شركة العميل: ${clientName}\nالمشكلة الملاحظة لديهم: ${problem}\nالعرض التجريبي المجاني لجذب انتباههم: ${freeOffer}`;
+
+            const aiResponse = await callGemini(systemPrompt, userQuery);
+            btnText.innerText = "توليد رسالة مخصصة بـ Gemini AI";
+
+            if (aiResponse) {
+                document.getElementById('outreach-output-text').value = aiResponse;
+                document.getElementById('outreach-title-indicator').innerText = "تم التوليد المخصص بواسطة Gemini AI: ✨";
+                document.getElementById('outreach-result-panel').classList.remove('hidden');
+                document.getElementById('outreach-result-panel').scrollIntoView({ behavior: 'smooth' });
+                playRetroSound('success');
+            } else {
+                triggerRetroAlert("خطأ في الاتصال", "حدث خطأ أثناء الحصول على رد من خوادم الذكاء الاصطناعي.", "error");
+            }
+        }
+
+        // Templates Database for static fallback outreach
+        const outreachTemplates = {
+            design: {
+                problem: "تشتت الهوية البصرية وضعف جودة المنشورات على منصات التواصل الاجتماعي",
+                solution: "تطوير هوية بصرية متناسقة وقالب فريد للمنشورات لرفع ثقة عملائكم بالهوية",
+                free: "تصميم منشور واحد متكامل من اختياركم مجاناً تماماً لرؤية النتيجة بأنفسكم"
+            },
+            copywriting: {
+                problem: "عدم وجود نبرة صوت مميزة للمحتوى والمنشورات التسويقية لا تنهي عمليات البيع",
+                solution: "كتابة نصوص تسويقية مركزة تركز على مشاعر المستهلك وبناء رغبة الشراء لديه",
+                free: "كتابة خطة محتوى مكونة من 3 منشورات وسيناريو ريلز سريع كنموذج مجاني"
+            },
+            webdev: {
+                problem: "موقعكم الحالي لا يفتح بشكل جيد على الجوال وبطئ التحميل يضيع العملاء",
+                solution: "تطوير صفحة هبوط سريعة الاستجابة ومهيأة للبيع تركز على زيادة سرعة التحميل ومعدلات التحويل",
+                free: "مراجعة فنية شاملة للموقع وتحديد أكثر 3 مشاكل تفقدكم زواراً حالياً بشكل مجاني"
+            },
+            video: {
+                problem: "فيديوهات الريلز والتحركات الحالية لا تشد الانتباه في أول 3 ثوانٍ وتفتقد للانتقالات المناسبة",
+                solution: "إضافة مؤثرات بصرية وتعديلات صوتية مميزة والبدء بـ Hook جذاب للاحتفاظ بالجمهور",
+                free: "مونتاج فيديو واحد قصير (ريل/تيك توك) لا تتعدى مدته دقيقة كعرض تجريبي مجاني"
+            }
+        };
+
+        function updateOutreachExamples() {
+            const niche = document.getElementById('out-niche').value;
+            const temp = outreachTemplates[niche];
+            if (temp) {
+                document.getElementById('out-observed-problem').placeholder = `مثال: ${temp.problem}`;
+                document.getElementById('out-free-offer').placeholder = `مثال: ${temp.free}`;
+            }
+        }
+
+        function generateOutreachTemplate() {
+            const niche = document.getElementById('out-niche').value;
+            const clientName = document.getElementById('out-client-name').value.trim() || "[اسم العميل / الشركة]";
+            const problem = document.getElementById('out-observed-problem').value.trim() || outreachTemplates[niche].problem;
+            const freeOffer = document.getElementById('out-free-offer').value.trim() || outreachTemplates[niche].free;
+
+            let specialtyText = "";
+            if (niche === 'design') specialtyText = "مصمم هوية بصرية وتصميم تواصل اجتماعي";
+            else if (niche === 'copywriting') specialtyText = "كاتب محتوى تسويقي متخصص في زيادة تفاعل العملاء";
+            else if (niche === 'webdev') specialtyText = "مطور مواقع متخصص في سرعة الأداء وسرعة التحميل";
+            else if (niche === 'video') specialtyText = "محرر فيديو ومصمم موشن لتطوير محتوى الفيديو القصير";
+
+            const templateText = `مرحباً فريق ${clientName}،
+
+أتمنى أن تكونوا بأفضل حال.
+
+أنا أتابع صفحتكم المميزة مؤخراً، وأحببت جداً خطوة طرحكم لمنتجاتكم الأخيرة. صراحةً، لفت نظري أن هناك فرصة تسويقية كبيرة تضيع نظراً لـ [${problem}] وهو ما قد يؤثر على ثقة العملاء أو معدل تحويلهم لعملاء دائمين.
+
+بصفتي [${specialtyText}]، أود مساعدتكم في التغلب على هذه المشكلة من خلال:
+👈 تطوير وتنفيذ تصميمات وحلول مهيأة تقنياً وبصرياً لتبهر العميل وتسهل عليه القرار.
+
+وعشان أثبت لكم فاعلية كلامي قبل أي التزام مادي بيننا:
+🎁 يسعدني جداً أن أقدم لكم [${freeOffer}] كنموذج مجاني تماماً من عملي بدون أي مقابل لتقييم الجودة بأنفسكم.
+
+إذا كنتم مهتمين برؤية النموذج المقترح، يسرني جداً الرد على هذه الرسالة لنناقش التفاصيل سريعاً!
+
+تحياتي،
+[اسمك هنا]
+مستقل متخصص في حلول النمو`;
+
+            document.getElementById('outreach-output-text').value = templateText;
+            document.getElementById('outreach-title-indicator').innerText = "تفضل صيغة الإرسال الجاهزة للنسخ:";
+            document.getElementById('outreach-result-panel').classList.remove('hidden');
+            document.getElementById('outreach-result-panel').scrollIntoView({ behavior: 'smooth' });
+            playRetroSound('success');
+        }
+
+        function copyOutreachToClipboard() {
+            const textToCopy = document.getElementById('outreach-output-text').value;
+            const el = document.createElement('textarea');
+            el.value = textToCopy;
+            el.setAttribute('readonly', '');
+            el.style.position = 'absolute';
+            el.style.left = '-9999px';
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+
+            playRetroSound('success');
+            triggerRetroAlert("رائع! 🎉", "تم نسخ نص رسالة التواصل المباشر. يمكنك تخصيص اسمك وإرسالها فوراً للعميل المرجو.", "success");
+        }
+
+        function calculateLinkedInScore() {
+            playRetroSound('click');
+
+            const checks = [
+                document.getElementById('li-check-photo').checked,
+                document.getElementById('li-check-headline').checked,
+                document.getElementById('li-check-featured').checked,
+                document.getElementById('li-check-about').checked,
+                document.getElementById('li-check-activity').checked
+            ];
+
+            const scorePercent = (checks.filter(Boolean).length / checks.length) * 100;
+            
+            // Update UI elements
+            document.getElementById('li-score-percent').innerText = `${scorePercent}%`;
+            document.getElementById('li-score-fill').style.width = `${scorePercent}%`;
+
+            const label = document.getElementById('li-evaluation-label');
+            const adviceBox = document.getElementById('li-advice-box');
+            adviceBox.classList.remove('hidden');
+
+            if (scorePercent === 0) {
+                label.innerText = "غير مفعل ❌";
+                label.className = "text-[10px] text-red-600 font-sans mt-0.5 font-bold";
+                adviceBox.innerHTML = "<strong>نصيحة سريعة:</strong> ابدأ فوراً بوضع صورة شخصية احترافية واضحة وعنوان واضح يوضح ميزتك التنافسية. بدونها، حسابك لا يثق فيه أحد.";
+            } else if (scorePercent <= 40) {
+                label.innerText = "ضعيف جداً ⚠️";
+                label.className = "text-[10px] text-orange-600 font-sans mt-0.5 font-bold";
+                adviceBox.innerHTML = "<strong>نصيحة للتحسين:</strong> بروفايلك يفتقد لأهم ركيزتين. اهتم بكتابة نبذة 'عني' (About) تشرح فيها المشاكل التي تحلها للعميل وتوجه العميل للتواصل معك.";
+            } else if (scorePercent <= 60) {
+                label.innerText = "مقبول ⚡";
+                label.className = "text-[10px] text-yellow-600 font-sans mt-0.5 font-bold";
+                adviceBox.innerHTML = "<strong>جيد كبداية!</strong> لكن لجذب العملاء بشكل دائم، يجب عليك تفعيل 'قسم الإنجازات المميزة - Featured Section' وربط بورتفوليو أعمالك هناك مباشرة ليرى العميل أدلتك البصرية فوراً.";
+            } else if (scorePercent <= 80) {
+                label.innerText = "قوي جداً 🔥";
+                label.className = "text-[10px] text-green-600 font-sans mt-0.5 font-bold";
+                adviceBox.innerHTML = "<strong>بروفايلك شبه ممتاز!</strong> لجعل بروفايلك مغناطيساً حقيقياً، التزم بمشاركة تجاربك ومعلومات من تخصصك مرتين أسبوعياً (Activity). خوارزميات لينكدإن ترفع التفاعل بشكل مذهل مع من ينشر محتوى منتظم.";
+            } else if (scorePercent === 100) {
+                label.innerText = "مغناطيس عملاء كامل 💎";
+                label.className = "text-[10px] text-blue-900 font-sans mt-0.5 font-bold";
+                adviceBox.innerHTML = "<strong>تهانينا! 🎉 بروفايلك مغناطيس حقيقي للعملاء!</strong> أنت الآن مهيأ بنسبة 100% لاستقبال وتلقي العروض المباشرة أو التواصل مع المدراء التنفيذيين ومسؤولي التوظيف عبر المنصة بكل ثقة.";
+                playRetroSound('success');
+            }
+        }
+
+        // LinkedIn Bio Generator using Gemini AI
+        async function generateLinkedInBioAI() {
+            const skills = document.getElementById('li-input-skills').value.trim();
+            if (!skills) {
+                triggerRetroAlert("تنبيه الإدخال", "يرجى كتابة بعض المهارات أولاً ليتسنى للذكاء الاصطناعي بناء السيرة الذاتية لك.", "error");
+                return;
+            }
+
+            const bioResult = document.getElementById('li-bio-result');
+            bioResult.innerText = "جاري تجميع مهاراتك وصناعة غلافك المهني بذكاء Gemini...";
+            bioResult.classList.remove('hidden');
+            playRetroSound('click');
+
+            const systemPrompt = "أنت مستشار توظيف وخبير في منصة لينكدإن (LinkedIn). قم بكتابة عنوان وظيفي (Headline) احترافي، ونبذة شخصية (About Section) تركز على المخرجات وحل مشكلات العملاء وتقديم دعوة واضحة لاتخاذ إجراء (Call to Action) وتنسيقها بشكل مريح جداً للقراءة للعميل المستهدف بناءً على مهارات المستقل المعطاة.";
+            
+            const aiResponse = await callGemini(systemPrompt, `المهارات والخدمات المقدمة: ${skills}`);
+            
+            if (aiResponse) {
+                bioResult.innerText = aiResponse;
+                playRetroSound('success');
+            } else {
+                bioResult.innerText = "لم نتمكن من الوصول لنتائج حالياً، يرجى المحاولة لاحقاً.";
+            }
+        }
+
+        // Chatbot Integration Functions
+        async function sendChatMessage() {
+            const inputField = document.getElementById('ai-chat-input');
+            const messageText = inputField.value.trim();
+            if (!messageText) return;
+
+            // Clear input and append user message
+            inputField.value = "";
+            appendMessage("مستخدم", messageText, "user");
+            playRetroSound('click');
+
+            // Show loading bubble for Clippy
+            const loaderId = appendMessage("📎 دبّوس", "يفكر ويستحضر ذكريات التسعينات السريعة...", "bot-loading");
+
+            // Build system prompt for Clippy clone (Arabic Retro Vibe)
+            const systemPrompt = "أنت 'دبّوس الذكي' (Clippy القديم)، خبير عمل حر ومستشار تسويق مستقل بروح التسعينات الدافئة. تحدث باللهجة العربية الودية المطعمة ببعض طرائف المبرمجين والـ Freelancers. أجب على أسئلة المستقلين الجدد بإرشادات عملية وواضحة جداً لحل مشاكلهم (تسعير، عملاء، تفاوض، تسويق). اجعل ردودك مباشرة وضمن فقرة أو اثنتين مع نصائح مفيدة جداً ونظمها بنقاط.";
+            
+            const aiResponse = await callGemini(systemPrompt, messageText);
+            
+            // Remove loading and append answer
+            document.getElementById(loaderId).remove();
+            
+            if (aiResponse) {
+                appendMessage("📎 دبّوس", aiResponse, "bot");
+                playRetroSound('success');
+            } else {
+                appendMessage("📎 دبّوس", "عذراً يا صديقي، خطوط الهاتف مشغولة (يبدو أن أحداً يرفع سماعة الهاتف والإنترنت Dial-up منقطع)! أعد المحاولة لاحقاً.", "bot");
+                playRetroSound('error');
+            }
+        }
+
+        function appendMessage(sender, text, type) {
+            const chatDisplay = document.getElementById('ai-chat-display');
+            const messageDiv = document.createElement('div');
+            const msgId = "msg-" + Math.random().toString(36).substr(2, 9);
+            messageDiv.id = msgId;
+            messageDiv.className = `p-2 rounded max-w-full ${type === 'user' ? 'bg-blue-50 text-right border-r-4 border-blue-900' : 'bg-gray-100 text-right border-r-4 border-yellow-600'}`;
+            
+            messageDiv.innerHTML = `<span class="font-bold ${type === 'user' ? 'text-blue-950' : 'text-yellow-950'}">${sender}:</span><p class="mt-1 leading-relaxed whitespace-pre-line">${text}</p>`;
+            
+            chatDisplay.appendChild(messageDiv);
+            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+            return msgId;
+        }
+
+        function handleChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendChatMessage();
+            }
+        }
+
+        function sendQuickPrompt(promptText) {
+            document.getElementById('ai-chat-input').value = promptText;
+            sendChatMessage();
+        }
+
+        // Simple Drag and Drop functionality for retro windows title bars
+        const dragBars = document.querySelectorAll('.drag-bar');
+        dragBars.forEach(bar => {
+            const win = bar.parentElement;
+            let isDragging = false;
+            let startX, startY, initialX, initialY;
+
+            bar.addEventListener('mousedown', dragStart);
+            bar.addEventListener('touchstart', dragStart, { passive: true });
+
+            function dragStart(e) {
+                isDragging = true;
+                // Focus current window
+                windowZIndex += 1;
+                win.style.zIndex = windowZIndex;
+                
+                // Active Window visually highlight styling
+                document.querySelectorAll('.win95-outset').forEach(w => w.classList.remove('window-active'));
+                win.classList.add('window-active');
+
+                const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+                const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+
+                startX = clientX;
+                startY = clientY;
+                initialX = win.offsetLeft;
+                initialY = win.offsetTop;
+
+                document.addEventListener('mousemove', drag);
+                document.addEventListener('mouseup', dragEnd);
+                document.addEventListener('touchmove', drag, { passive: false });
+                document.addEventListener('touchend', dragEnd);
+            }
+
+            function drag(e) {
+                if (!isDragging) return;
+                
+                // Prevent scrolling on touch devices during drag
+                if (e.type === 'touchmove') e.preventDefault();
+
+                const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+                const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+
+                const dx = clientX - startX;
+                const dy = clientY - startY;
+
+                win.style.left = (initialX + dx) + 'px';
+                win.style.top = (initialY + dy) + 'px';
+                win.style.right = 'auto'; // Break alignment bounds
+            }
+
+            function dragEnd() {
+                isDragging = false;
+                document.removeEventListener('mousemove', drag);
+                document.removeEventListener('mouseup', dragEnd);
+                document.removeEventListener('touchmove', drag);
+                document.removeEventListener('touchend', dragEnd);
+            }
+        });
+
+        // Initialize with standard windows open
+        window.onload = function() {
+            // Auto open start guide
+            setTimeout(() => {
+                openWindow('win-guide', 'success');
+            }, 600);
+            updateOutreachExamples();
+        };
+
+        // Close start menu if clicked anywhere outside
+        document.addEventListener('click', function(e) {
+            const startMenu = document.getElementById('start-menu');
+            const startBtn = document.getElementById('btn-start-menu');
+            if (startMenu && !startMenu.classList.contains('hidden')) {
+                if (!startMenu.contains(e.target) && !startBtn.contains(e.target)) {
+                    startMenu.classList.add('hidden');
+                    startMenu.classList.remove('flex');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

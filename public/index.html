@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AX OS | Professional Freelance Platform</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <!-- LOGIN SCREEN -->
+    <div id="login-screen" style="display:flex;">
+        <div class="login-box">
+            <!-- Language toggle on login -->
+            <div style="text-align:right; margin-bottom:10px;">
+                <button onclick="toggleLanguage()" id="login-lang-btn" style="background:none; border:1px solid var(--border); color:var(--text-muted); padding:4px 12px; border-radius:20px; cursor:pointer; font-size:13px; font-family:inherit;">عربي</button>
+            </div>
+            <img src="/logo.png" alt="AX Logo" class="login-logo">
+            <h2 style="margin-bottom:5px; font-size:1.4rem;" data-i18n="login_title">Freelance OS</h2>
+            <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:20px;" data-i18n="login_subtitle">Professional Freelance Management Platform</p>
+
+            <!-- Tabs -->
+            <div style="display:flex; border-bottom:1px solid var(--border); margin-bottom:20px;">
+                <button id="tab-login" onclick="switchAuthTab('login')" style="flex:1; padding:10px; background:none; border:none; color:var(--accent); border-bottom:2px solid var(--accent); cursor:pointer; font-family:inherit; font-weight:600;" data-i18n="login_btn">Login</button>
+                <button id="tab-register" onclick="switchAuthTab('register')" style="flex:1; padding:10px; background:none; border:none; color:var(--text-muted); border-bottom:2px solid transparent; cursor:pointer; font-family:inherit;" data-i18n="login_new">Register</button>
+            </div>
+
+            <input type="text" id="login-username" class="cp-input" style="margin-bottom:12px;" placeholder="Username" data-i18n="login_user_ph">
+            <input type="password" id="login-password" class="cp-input" style="margin-bottom:20px;" placeholder="Password" data-i18n="login_pass_ph">
+            <button class="btn btn-primary" id="auth-submit-btn" style="width:100%;" onclick="performAuth(currentAuthTab)" data-i18n="login_btn">Login</button>
+            <p id="login-error" style="color:var(--danger); margin-top:10px; font-size:13px; min-height:20px;"></p>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <img src="/logo.png" alt="AX Logo">
+        </div>
+        <div class="nav-actions">
+            <span id="welcome-msg" style="font-weight:600; color:var(--accent);"></span>
+            <button class="btn" style="border:none; background:none; font-weight:600;" onclick="openWindow('win-about')" data-i18n="nav_about">About Us</button>
+            <button class="btn" onclick="toggleLanguage()" id="lang-btn">عربي</button>
+            <button class="btn" onclick="logout()" data-i18n="sm_logout">Logout</button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+        <h1 data-i18n="hero_title">Elevate Your Freelance Business</h1>
+        <p data-i18n="hero_desc">The all-in-one smart operating system designed exclusively for top-tier freelancers. Manage clients, generate outreach, and evaluate your portfolio with advanced AI.</p>
+    </header>
+
+    <!-- SERVICES GRID -->
+    <main class="container">
+        <div class="services-grid">
+            <div class="service-card" onclick="openWindow('win-crm')">
+                <div class="service-icon">💼</div>
+                <div class="service-title" data-i18n="app_crm">CRM Hub</div>
+                <div class="service-desc" data-i18n="desc_crm">Manage clients and project statuses.</div>
+            </div>
+            <div class="service-card" onclick="openWindow('win-portfolio')">
+                <div class="service-icon">📁</div>
+                <div class="service-title" data-i18n="app_portfolio">Portfolio Builder</div>
+                <div class="service-desc" data-i18n="desc_portfolio">Generate professional case studies.</div>
+            </div>
+            <div class="service-card" onclick="openWindow('win-outreach')">
+                <div class="service-icon">✉️</div>
+                <div class="service-title" data-i18n="app_outreach">Outreach Generator</div>
+                <div class="service-desc" data-i18n="desc_outreach">Draft magnetic cold emails.</div>
+            </div>
+            <div class="service-card" onclick="openWindow('win-linkedin')">
+                <div class="service-icon">🧲</div>
+                <div class="service-title" data-i18n="app_linkedin">LinkedIn SEO</div>
+                <div class="service-desc" data-i18n="desc_linkedin">Optimize your profile for recruiters.</div>
+            </div>
+            <div class="service-card" onclick="openWindow('win-platforms')">
+                <div class="service-icon">🌍</div>
+                <div class="service-title" data-i18n="app_platforms">Platforms Guide</div>
+                <div class="service-desc" data-i18n="desc_platforms">Find the best freelance networks.</div>
+            </div>
+
+            <div class="service-card" onclick="openWindow('win-calc')">
+                <div class="service-icon">🧮</div>
+                <div class="service-title" data-i18n="app_calc">Estimator</div>
+                <div class="service-desc" data-i18n="desc_calc">Calculate project costs easily.</div>
+            </div>
+            <div class="service-card" onclick="openWindow('win-notepad')">
+                <div class="service-icon">📝</div>
+                <div class="service-title" data-i18n="app_notes">Notes</div>
+                <div class="service-desc" data-i18n="desc_notes">Quickly jot down your ideas.</div>
+            </div>
+            <div class="service-card" onclick="openWindow('win-gig-pricer')">
+                <div class="service-icon">💰</div>
+                <div class="service-title" data-i18n="app_gig_pricer">Gig Pricer</div>
+                <div class="service-desc" data-i18n="desc_gig_pricer">Estimate your asking price for specific jobs.</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- MODALS OVERLAY -->
+    <div class="modal-overlay" id="modal-overlay" onclick="closeAllWindows()"></div>
+
+    <!-- We will inject the modals HTML here from the old file, stripping the cp-window dragging structure -->
+    
+    <div id="modals-container" style="position:relative; z-index:9999;">
+
+    <!-- MODAL: win-gig-pricer -->
+    <div class="modal" id="win-gig-pricer">
+        <div class="modal-header">
+            <span class="modal-title" data-i18n="win_gig_pricer">Gig Pricer</span>
+            <button class="modal-refresh" onclick="clearWindowInputs(this)" title="Clear Info">🔄</button>
+            <button class="modal-close" onclick="closeWindow('win-gig-pricer')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div style="display:flex; flex-direction:column; gap:10px;">
+                <input type="text" id="gig-job-type" class="cp-input" placeholder="نوع العمل / الوظيفة (e.g. Website Development)">
+                <input type="number" id="gig-experience" class="cp-input" placeholder="سنوات الخبرة (Years of Experience)">
+                <input type="text" id="gig-location" class="cp-input" placeholder="مكان العمل / العميل (Client Location)">
+                <input type="text" id="gig-tools" class="cp-input" placeholder="الأدوات المستخدمة (e.g. React, Figma, Adobe Premiere)">
+                <div style="display:flex; flex-direction:column; gap:4px;">
+                    <label for="gig-upload" style="font-size:12px; color:var(--text-muted); font-family:'Cairo', sans-serif;">ارفع عملك لتقييمه (Upload your work) - PDF/Images:</label>
+                    <input type="file" id="gig-upload" accept="image/*,application/pdf" class="cp-input" style="padding:6px; background:var(--bg-dark);">
+                </div>
+                <button class="cp-btn" id="btn-estimate-gig" onclick="generateGigPriceAI()">احسب التسعيرة المقترحة (Calculate Price)</button>
+            </div>
+            <div id="gig-result-panel" style="display:none; margin-top:15px; border:1px solid var(--success); padding:10px; border-radius:8px;">
+                <div id="gig-result-text" style="font-family:'Cairo', sans-serif; white-space: pre-wrap;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: win-ai -->
+    <div class="modal" id="win-ai">
+        <div class="modal-header">
+            <span class="modal-title" data-i18n="win_ai"></span>
+            <button class="modal-refresh" onclick="clearWindowInputs(this)" title="Clear Info">🔄</button>
+            <button class="modal-close" onclick="closeWindow('win-ai')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div id="ai-chat-display" style="flex:1; padding:15px; overflow-y:auto; font-family:'Cairo'; display:flex; flex-direction:column; gap:10px;">
+                <div style="color:var(--warning); font-weight:700;" data-i18n="ai_welcome">المساعد الذكي متصل. كيف يمكنني مساعدتك؟</div>
+            </div>
+            <div style="padding:10px; border-top:1px solid var(--accent); background: var(--bg-card); display:flex; gap:10px;">
+                <input type="text" id="ai-chat-input" class="cp-input" placeholder="أدخل استفسارك..." onkeypress="if(event.key==='Enter') sendChatMessage()">
+                <button class="cp-btn" id="ai-send-btn" onclick="sendChatMessage()" data-i18n="ai_send">إرسال</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: win-about -->
+    <div class="modal" id="win-about">
+        <div class="modal-header">
+            <span class="modal-title" data-i18n="nav_about">About Us</span>
+            <button class="modal-close" onclick="closeWindow('win-about')">&times;</button>
+        </div>
+        <div class="modal-body" style="font-family:'Cairo', sans-serif; line-height:1.6; text-align:center;">
+            <img src="/logo.png" alt="A2Z Logo" style="width:80px; margin-bottom:15px; border-radius:12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+            <h3 style="color:var(--accent); margin-bottom:5px;" data-i18n="about_title">A2Z Studio</h3>
+            <p style="font-size:12px; color:var(--warning); margin-bottom:20px;" data-i18n="about_version">Version 2.5.0 - Professional Edition</p>
+            
+            <p style="color:var(--text-muted); font-size:13px; margin-bottom:15px; text-align:justify;" data-i18n="about_p1">A2Z Studio is the all-in-one smart operating system designed exclusively for top-tier freelancers. We empower independent professionals to manage clients, supercharge their outreach, and evaluate their portfolios with advanced AI powered by Gemini.</p>
+            
+            <p style="color:var(--text-muted); font-size:13px; margin-bottom:20px; text-align:justify;" data-i18n="about_p2">Built with passion by A2Z Studio, our goal is to streamline your entire freelance workflow so you can focus entirely on what you do best.</p>
+            
+            <div style="margin-bottom:20px;">
+                <p style="font-size:12px; font-weight:bold; color:var(--accent); margin-bottom:10px;" data-i18n="about_links">Quick Links:</p>
+                <div style="display:flex; justify-content:center; gap:15px; font-size:14px;">
+                    <a href="https://www.facebook.com/profile.php?id=61590087419266&locale=ar_AR" target="_blank" style="color:#1877F2; font-weight:bold; text-decoration:none;">Facebook</a>
+                    <span style="color:var(--border);">|</span>
+                    <a href="https://www.instagram.com/a2z_studio22/" target="_blank" style="color:#E4405F; font-weight:bold; text-decoration:none;">Instagram</a>
+                    <span style="color:var(--border);">|</span>
+                    <a href="https://wa.me/201211580257" target="_blank" style="color:#25D366; font-weight:bold; text-decoration:none;">Whatsapp</a>
+                </div>
+            </div>
+            
+            <p style="font-size:11px; color:#666;" data-i18n="about_copy">© 2026 A2Z Studio. All rights reserved.</p>
+        </div>
+    </div>
+
+    <!-- MODAL: win-crm -->
+    <div class="modal" id="win-crm">
+        <div class="modal-header">
+            <span class="modal-title" data-i18n="win_crm"></span>
+            <button class="modal-refresh" onclick="clearWindowInputs(this)" title="Clear Info">🔄</button>
+            <button class="modal-close" onclick="closeWindow('win-crm')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div style="display:flex; gap:10px; margin-bottom:15px;">
+                <input type="text" id="crm-client" class="cp-input" placeholder="اسم العميل">
+                <input type="text" id="crm-project" class="cp-input" placeholder="تفاصيل المشروع">
+                <select id="crm-status" class="cp-input" style="width:120px; padding: 6px;">
+                    <option value="Lead">محتمل</option>
+                    <option value="Negotiating">تفاوض</option>
+                    <option value="Won">تم</option>
+                    <option value="Lost">مرفوض</option>
+                </select>
+                <button class="cp-btn" onclick="addCrmClient()">إضافة</button>
+            </div>
+            <table style="width:100%; text-align:right; border-collapse:collapse; font-family:'Cairo';">
+                <thead>
+                    <tr style="border-bottom:1px solid var(--accent); color:var(--accent); font-weight:900;">
+                        <th style="padding:8px;">العميل</th>
+                        <th style="padding:8px;">المشروع</th>
+                        <th style="padding:8px; text-align:center;">الحالة</th>
+                        <th style="padding:8px; text-align:center;">الأمر</th>
+                    </tr>
+                </thead>
+                <tbody id="crm-tbody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- MODAL: win-calc -->
+    <div class="modal" id="win-calc">
+        <div class="modal-header">
+            <span class="modal-title" data-i18n="win_calc"></span>
+            <button class="modal-refresh" onclick="clearWindowInputs(this)" title="Clear Info">🔄</button>
+            <button class="modal-close" onclick="closeWindow('win-calc')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div style="display:flex; flex-direction:column; gap:10px;">
+                <input type="text" id="calc-field" class="cp-input" placeholder="مجال عملك (Work Field) - e.g. UI/UX Designer">
+                <input type="number" id="calc-experience" class="cp-input" placeholder="سنوات الخبرة (Years of Experience)">
+                <input type="text" id="calc-country" class="cp-input" placeholder="الدولة (Country/Region)">
+                <textarea id="calc-intro" class="cp-input" placeholder="نبذة عنك وعن مهامك (Brief introduction about yourself and your work)..." style="height:80px;resize:none;"></textarea>
+                <button class="cp-btn" id="btn-estimate-pay" onclick="estimatePaycheckAI()">توقع راتبي (Estimate My Paycheck)</button>
+            </div>
+            <div id="calc-result-panel" style="display:none; margin-top:15px; border:1px solid var(--warning); padding:10px; border-radius:8px;">
+                <div id="calc-result-text" style="font-family:'Cairo', sans-serif; white-space: pre-wrap;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: win-notepad -->
+    <div class="modal" id="win-notepad">
+        <div class="modal-header">
+            <span class="modal-title" data-i18n="win-notepad"></span>
+            <button class="modal-refresh" onclick="clearWindowInputs(this)" title="Clear Info">🔄</button>
+            <button class="modal-close" onclick="closeWindow('win-notepad')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <textarea id="notepad-text" class="cp-input" style="width:100%; height:100%; border:none; resize:none; font-family:'Cairo'; padding:15px;" oninput="saveNotepad()" placeholder="اكتب ملاحظاتك هنا..."></textarea>
+        </div>
+    </div>
+
+    <!-- MODAL: win-platforms -->
+    <div class="modal" id="win-platforms">
+        <div class="modal-header">
+            <span class="modal-title" data-i18n="win_platforms"></span>
+            <button class="modal-refresh" onclick="clearWindowInputs(this)" title="Clear Info">🔄</button>
+            <button class="modal-close" onclick="closeWindow('win-platforms')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p style="color:var(--accent);" data-i18n="plat_intro">عشان تلاقي شغل، لازم تروح للمكان اللي العميل بيبحث فيه عنك. الشغل نوعين: منصات مباشرة، وتواصل مباشر.</p>
+            
+            <div style="display: flex; gap: 10px; border-bottom: 1px solid var(--accent); padding-bottom: 10px;">
+                <button id="tab-btn-global" class="cp-btn" style="background: var(--accent); color: #000;" onclick="switchWorkTab('global')" data-i18n="tab_global">المنصات العالمية 🌐</button>
+                <button id="tab-btn-arabic" class="cp-btn" onclick="switchWorkTab('arabic')" data-i18n="tab_arabic">المنصات العربية 🇸🇦</button>
+                <button id="tab-btn-direct" class="cp-btn" onclick="switchWorkTab('direct')" data-i18n="tab_direct">التواصل المباشر 🎯</button>
+            </div>
+
+            <div id="tab-global" style="display:block;">
+                <p style="color:var(--warning); margin-bottom:10px;" data-i18n="plat_global_desc">للمستقلين الذين يمتلكون لغة إنجليزية جيدة:</p>
+                <div style="border: 1px solid var(--accent); padding: 10px; margin-bottom: 10px; background: rgba(0, 240, 255, 0.05);">
+                    <strong style="color:var(--accent);">Upwork:</strong>
+                    <p style="font-size:12px; margin-top:5px;" data-i18n="plat_upwork">المنصة الأكبر عالمياً. ممتاز جداً للعقود الطويلة والمشاريع الكبيرة ذات الميزانيات المرتفعة.</p>
+                </div>
+                <div style="border: 1px solid var(--accent); padding: 10px; margin-bottom: 10px; background: rgba(0, 240, 255, 0.05);">
+                    <strong style="color:var(--accent);">Fiverr:</strong>
+                    <p style="font-size:12px; margin-top:5px;" data-i18n="plat_fiverr">قائم على فكرة "المبيعات السلبية". أنت تعرض خدماتك الجاهزة، والعميل يشتريها مباشرة.</p>
+                </div>
+                <div style="border: 1px solid var(--accent); padding: 10px; margin-bottom: 10px; background: rgba(0, 240, 255, 0.05);">
+                    <strong style="color:var(--accent);">Freelancer:</strong>
+                    <p style="font-size:12px; margin-top:5px;" data-i18n="plat_freelancer">منصة ممتازة للمسابقات والمشاريع، ولكن المنافسة فيها بالسعر شرسة جداً وتتطلب صبراً كبيراً.</p>
+                </div>
+            </div>
+
+            <div id="tab-arabic" style="display:none;">
+                <p style="color:var(--warning); margin-bottom:10px;" data-i18n="plat_ar_desc">ممتازة جداً كبداية إذا كنت تفضل التعامل باللغة العربية وتخشى حاجز اللغة الإنجليزية:</p>
+                <div style="border: 1px solid var(--accent); padding: 10px; margin-bottom: 10px; background: rgba(0, 240, 255, 0.05);">
+                    <strong style="color:var(--accent);">مستقل (Mostaql):</strong>
+                    <p style="font-size:12px; margin-top:5px;" data-i18n="plat_mostaql">أكبر منصة عربية للمشاريع الكبيرة. يضع العميل مشروعه وتفاصيله، وأنت تقدم عرضاً احترافياً.</p>
+                </div>
+                <div style="border: 1px solid var(--accent); padding: 10px; margin-bottom: 10px; background: rgba(0, 240, 255, 0.05);">
+                    <strong style="color:var(--accent);">خمسات (Khamsat):</strong>
+                    <p style="font-size:12px; margin-top:5px;" data-i18n="plat_khamsat">النسخة العربية من Fiverr. ركز هنا على تقديم خدمات مصغرة ذات سعر منخفض وسرعة تنفيذ عالية.</p>
+                </div>
+            </div>
+
+            <div id="tab-direct" style="display:none;">
+                <p style="color:var(--warning); margin-bottom:10px;" data-i18n="plat_direct_desc">🎯 التواصل البارد والمباشر (Cold Outreaching):</p>
+                <p style="font-size:12px; line-height:1.6;" data-i18n="plat_direct_text">ابحث عن الشركات الناشئة أو أصحاب البيزنس المحليين والعالميين الذين يعانون من نقص واضح في مجال تخصصك. مثلاً: صفحة مطعم نشطة ولكن تصاميمها سيئة، أو مدونة تحتاج إلى كتابة محتوى محسن.</p>
+                <div style="border: 1px solid var(--warning); padding: 10px; margin-top: 10px; background: rgba(252, 224, 9, 0.1);">
+                    <strong style="color:var(--warning);" data-i18n="plat_secret_title">السر الذهبي:</strong>
+                    <p style="font-size:12px; margin-top:5px;" data-i18n="plat_secret_text">لا ترسل "أنا مصمم وأريد عملاً". أرسل "أنا مصمم، لاحظت أن منشوراتكم لا تحصل على التفاعل الكافي، قمت بإعادة تصميم نموذج يعبر عن علامتكم التجارية لزيادة تفاعل الجمهور بنسبة 30%".</p>
+                </div>
+                <div style="text-align:center; margin-top:20px;">
+                    <button class="cp-btn" style="width:100%; border-color:var(--warning); color:var(--warning);" onclick="openWindow('win-outreach')" data-i18n="plat_open_outreach">💻 افتح أداة كتابة الرسائل الباردة الآن</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: win-portfolio -->
+    <div class="modal" id="win-portfolio">
+        <div class="modal-header">
+            <span class="modal-title" data-i18n="win_portfolio"></span>
+            <button class="modal-refresh" onclick="clearWindowInputs(this)" title="Clear Info">🔄</button>
+            <button class="modal-close" onclick="closeWindow('win-portfolio')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div style="border: 1px solid var(--accent); padding: 15px; background: rgba(0, 240, 255, 0.05);">
+                <h3 style="color:var(--accent); margin-bottom:10px; font-size:14px;" data-i18n="port_rules_title">القوانين الذهبية لبورتفوليو يبيع خدماتك بدلاً منك:</h3>
+                <ul style="font-size:12px; line-height:1.6; list-style-type: square; margin-right: 20px;">
+                    <li data-i18n="port_rule1"><strong style="color:var(--warning);">الجودة قبل الكمية:</strong> اختر أفضل 3 إلى 5 مشاريع فقط.</li>
+                    <li data-i18n="port_rule2"><strong style="color:var(--warning);">المشاريع الوهمية (Fake Projects):</strong> لو لم يكن لديك عملاء، قم بإنشاء مشاريع افتراضية لعلامات تجارية شهيرة.</li>
+                    <li data-i18n="port_rule3"><strong style="color:var(--warning);">الذكاء الاصطناعي ككاتب محترف:</strong> اكتب المعطيات البسيطة وسيقوم الذكاء بصياغتها بأسلوب تسويقي رائع.</li>
+                </ul>
+            </div>
+
+            <div style="border: 1px dashed var(--warning); padding: 15px; background: rgba(252, 224, 9, 0.05);">
+                <h4 style="color:var(--warning); margin-bottom:10px; font-size:14px;" data-i18n="port_sim_title">💡 محاكي كتابة دراسة حالة احترافية (Case Study):</h4>
+                <p style="font-size:12px; margin-bottom:15px;" data-i18n="port_sim_desc">املأ الحقول التالية ثم اختر الصياغة التقليدية أو التوليد المتطور عبر الذكاء الاصطناعي:</p>
+                
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size:12px;">
+                    <div>
+                        <label style="display:block; margin-bottom:5px; color:var(--accent);" data-i18n="port_lbl_title">اسم المشروع / المجال:</label>
+                        <input id="cs-title" type="text" class="cp-input" style="width:100%;" placeholder="مثال: تطبيق متجر إلكتروني للملابس">
+                    </div>
+                    <div>
+                        <label style="display:block; margin-bottom:5px; color:var(--accent);" data-i18n="port_lbl_client">العميل المستهدف أو الافتراضي:</label>
+                        <input id="cs-client" type="text" class="cp-input" style="width:100%;" placeholder="مثال: براند محلي للملابس الرجالية">
+                    </div>
+                    <div style="grid-column: span 2;">
+                        <label style="display:block; margin-bottom:5px; color:var(--accent);" data-i18n="port_lbl_problem">المشكلة (ما هي المشكلة التي كان يعاني منها العميل؟):</label>
+                        <textarea id="cs-problem" rows="2" class="cp-input" style="width:100%;" placeholder="مثال: المبيعات منخفضة وتجربة الشراء معقدة وبطيئة على الموقع القديم"></textarea>
+                    </div>
+                    <div style="grid-column: span 2;">
+                        <label style="display:block; margin-bottom:5px; color:var(--accent);" data-i18n="port_lbl_solution">الحل (كيف قمت بحل المشكلة خطوة بخطوة؟):</label>
+                        <textarea id="cs-solution" rows="2" class="cp-input" style="width:100%;" placeholder="مثال: أعدت تصميم واجهة المتجر كلياً وتبسيط خطوات الدفع لتصبح خطوة واحدة بدلاً من أربعة"></textarea>
+                    </div>
+                    <div style="grid-column: span 2;">
+                        <label style="display:block; margin-bottom:5px; color:var(--accent);" data-i18n="port_lbl_result">النتيجة بالأرقام (ما الفائدة والأثر الحقيقي؟):</label>
+                        <input id="cs-result" type="text" class="cp-input" style="width:100%;" placeholder="مثال: زيادة معدل التحويل والبيع بنسبة 45% وتوفير الوقت">
+                    </div>
+                </div>
+
+                <div style="margin-top:15px; display:flex; gap:10px; flex-wrap:wrap;">
+                    <button class="cp-btn" onclick="generateCaseStudy()" data-i18n="port_btn_trad">صياغة تقليدية 📝</button>
+                    <button class="cp-btn" style="border-color:var(--warning); color:var(--warning);" onclick="generateCaseStudyAI()" id="ai-cs-btn-text" data-i18n="port_btn_ai">🤖 توليد احترافي بـ Groq AI</button>
+                    <button class="cp-btn" style="border-color:#ff003c; color:#ff003c;" onclick="clearCaseStudyForm()" data-i18n="port_btn_clear">إعادة تعيين</button>
+                </div>
+            </div>
+
+            <div id="cs-result-panel" style="display:none; border: 1px solid #00ff00; padding: 15px; background: rgba(0, 255, 0, 0.05); margin-top:10px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #00ff00; padding-bottom:10px; margin-bottom:10px;">
+                    <span style="font-size:12px; color:#00ff00;" data-i18n="port_res_ready">جاهز للعرض في بورتفوليو الخاص بك!</span>
+                    <button class="cp-btn" style="padding: 5px 10px; font-size:10px;" onclick="copyCaseStudyToClipboard()" data-i18n="port_res_copy">نسخ النص 📋</button>
+                </div>
+                <div id="cs-formatted-text" style="font-size:12px; line-height:1.6; white-space:pre-line; color:#fff; user-select:text;">
+                    <!-- Filled dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: win-outreach -->
+    <div class="modal" id="win-outreach">
+        <div class="modal-header">
+            <span class="modal-title" data-i18n="win_outreach"></span>
+            <button class="modal-refresh" onclick="clearWindowInputs(this)" title="Clear Info">🔄</button>
+            <button class="modal-close" onclick="closeWindow('win-outreach')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div style="border: 1px solid #ff003c; padding: 15px; background: rgba(255, 0, 60, 0.05);">
+                <p style="color:#ff003c; font-weight:bold; font-size:14px;" data-i18n="out_intro_title">كيف تستخدم التواصل البارد لزيادة مبيعاتك؟</p>
+                <p style="font-size:12px; margin-top:5px; color:#ddd;" data-i18n="out_intro_desc">تحديد العميل ومشاكله بدقة وتقديم حل فوري ومجاني كبداية، هو الطريقة الوحيدة ليرد العميل على رسالتك.</p>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size:12px;">
+                <div>
+                    <label style="display:block; margin-bottom:5px; color:var(--accent);" data-i18n="out_lbl_niche">مجالك التقني:</label>
+                    <select id="out-niche" class="cp-input" style="width:100%; background: var(--bg-dark);" onchange="updateOutreachExamples()">
+                        <option value="design" data-i18n="out_opt_design">تصميم جرافيك وهوية بصرية</option>
+                        <option value="copywriting" data-i18n="out_opt_copy">كتابة محتوى وإعلانات</option>
+                        <option value="webdev" data-i18n="out_opt_web">برمجة وتطوير مواقع ويب</option>
+                        <option value="video" data-i18n="out_opt_vid">مونتاج وصناعة الفيديوهات</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="display:block; margin-bottom:5px; color:var(--accent);" data-i18n="out_lbl_client">اسم العميل / اسم البراند المستهدف:</label>
+                    <input id="out-client-name" type="text" class="cp-input" style="width:100%;" placeholder="مثال: مطعم شاورما البركة">
+                </div>
+                <div style="grid-column: span 2;">
+                    <label style="display:block; margin-bottom:5px; color:var(--accent);" data-i18n="out_lbl_prob">المشكلة التي لاحظتها على عملهم:</label>
+                    <input id="out-observed-problem" type="text" class="cp-input" style="width:100%;" placeholder="مثال: انخفاض جودة تصاميم الانستغرام لديهم">
+                </div>
+                <div style="grid-column: span 2;">
+                    <label style="display:block; margin-bottom:5px; color:var(--accent);" data-i18n="out_lbl_offer">عرضك المجاني السريع لجذب انتباههم:</label>
+                    <input id="out-free-offer" type="text" class="cp-input" style="width:100%;" placeholder="مثال: تصميم مجاني لمنشور العيد القادم لتجربة الجودة">
+                </div>
+            </div>
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+                <button class="cp-btn" onclick="generateOutreachTemplate()" data-i18n="out_btn_fast">صيغة سريعة 🚀</button>
+                <button class="cp-btn" style="border-color:var(--warning); color:var(--warning);" onclick="generateOutreachAI()" id="ai-out-btn-text" data-i18n="out_btn_ai">🤖 توليد رسالة مخصصة بـ Groq AI</button>
+            </div>
+
+            <div id="outreach-result-panel" style="display:none; border: 1px solid #00ff00; padding: 15px; background: rgba(0, 255, 0, 0.05); margin-top:10px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #00ff00; padding-bottom:10px; margin-bottom:10px;">
+                    <span style="font-size:12px; color:#00ff00;" data-i18n="out_res_title">تفضل صيغة الإرسال الجاهزة للنسخ:</span>
+                    <button class="cp-btn" style="padding: 5px 10px; font-size:10px;" onclick="copyOutreachToClipboard()" data-i18n="out_res_copy">نسخ الرسالة 📋</button>
+                </div>
+                <textarea id="outreach-output-text" rows="8" class="cp-input" style="width:100%; height:150px; font-size:12px; line-height:1.6;" dir="rtl"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: win-linkedin -->
+    <div class="modal" id="win-linkedin">
+        <div class="modal-header">
+            <span class="modal-title" data-i18n="win_linkedin"></span>
+            <button class="modal-refresh" onclick="clearWindowInputs(this)" title="Clear Info">🔄</button>
+            <button class="modal-close" onclick="closeWindow('win-linkedin')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div style="border: 1px solid var(--accent); padding: 15px; background: rgba(0, 240, 255, 0.05);">
+                <h3 style="color:var(--accent); font-weight:bold; font-size:14px; margin-bottom:5px;" data-i18n="li_intro_title">اجعل بروفايلك مغناطيس يطارد العميل بدلاً من مطاردته!</h3>
+                <p style="font-size:12px; color:#ddd;" data-i18n="li_intro_desc">العميل عندما يدخل حسابك يحتاج لمعرفة مهاراتك وقدرتك على حل مشاكله في أول 5 ثوانٍ فقط.</p>
+            </div>
+
+            <div style="border: 1px solid var(--border); padding: 15px;">
+                <h4 style="color:var(--warning); font-size:13px; margin-bottom:5px; border-bottom:1px solid #555; padding-bottom:5px;" data-i18n="li_test_title">📊 اختبار التقييم التفاعلي لبروفايلك:</h4>
+                <p style="font-size:11px; color:#888; margin-bottom:10px;" data-i18n="li_test_desc">ضع علامة صح أمام الخطوات التي قمت بتجهيزها حالياً في ملفك الشخصي:</p>
+                
+                <div style="display:flex; flex-direction:column; gap:10px; font-size:12px;">
+                    <label style="display:flex; gap:10px; cursor:pointer; align-items:center;">
+                        <input type="checkbox" id="li-check-photo" onchange="calculateLinkedInScore()">
+                        <span data-i18n="li_chk_1">1. الصورة الشخصية والـ Banner</span>
+                    </label>
+                    <label style="display:flex; gap:10px; cursor:pointer; align-items:center;">
+                        <input type="checkbox" id="li-check-headline" onchange="calculateLinkedInScore()">
+                        <span data-i18n="li_chk_2">2. العنوان الوظيفي (Headline)</span>
+                    </label>
+                    <label style="display:flex; gap:10px; cursor:pointer; align-items:center;">
+                        <input type="checkbox" id="li-check-featured" onchange="calculateLinkedInScore()">
+                        <span data-i18n="li_chk_3">3. قسم الإنجازات المميزة (Featured Section)</span>
+                    </label>
+                    <label style="display:flex; gap:10px; cursor:pointer; align-items:center;">
+                        <input type="checkbox" id="li-check-about" onchange="calculateLinkedInScore()">
+                        <span data-i18n="li_chk_4">4. نبذة "عني" (About Section) صائدة للعملاء</span>
+                    </label>
+                    <label style="display:flex; gap:10px; cursor:pointer; align-items:center;">
+                        <input type="checkbox" id="li-check-activity" onchange="calculateLinkedInScore()">
+                        <span data-i18n="li_chk_5">5. النشر المنتظم لصناعة الهوية الشخصية</span>
+                    </label>
+                </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; border: 1px solid var(--accent); padding: 15px; background: var(--bg-dark); font-size:12px;">
+                <div>
+                    <span style="font-weight:bold; color:var(--accent);" data-i18n="li_score_lbl">مجموع نقاط المغناطيسية:</span>
+                    <div style="width:200px; height:15px; background:#222; border: 1px solid var(--border); margin-top:5px; position:relative;">
+                        <div id="li-score-fill" style="height:100%; background:var(--accent); width:0%; transition:width 0.3s;"></div>
+                    </div>
+                </div>
+                <div style="text-align:center;">
+                    <span id="li-score-percent" style="font-size:16px; font-weight:bold; font-family:'Courier New', monospace; color:var(--warning);">0%</span>
+                    <div id="li-evaluation-label" style="font-size:10px; color:#ff003c; margin-top:3px;" data-i18n="li_eval_weak">ضعيف جداً ❌</div>
+                </div>
+            </div>
+
+            <div style="border: 1px dashed var(--warning); padding: 15px; background: rgba(252, 224, 9, 0.05); margin-top:10px;">
+                <h4 style="color:var(--warning); font-size:13px; margin-bottom:5px;" data-i18n="li_ai_title">🤖 مولد بايو وعنوان لينكدإن الذكي:</h4>
+                <p style="font-size:11px; margin-bottom:10px; color:#ddd;" data-i18n="li_ai_desc">ادخل مهاراتك الأساسية وسيقوم الذكاء بكتابة عنوان ونبذة احترافية تجذب مدراء التوظيف والعملاء:</p>
+                <input id="li-input-skills" type="text" class="cp-input" style="width:100%; margin-bottom:10px;" placeholder="مثال: تطوير مواقع Laravel و React، تصميم تجربة المستخدم">
+                <button class="cp-btn" style="border-color:var(--warning); color:var(--warning);" onclick="generateLinkedInBioAI()" id="li-bio-btn-text" data-i18n="li_btn_ai">توليد بايو احترافي 🚀</button>
+                
+                <div id="li-bio-result" style="display:none; margin-top:15px; padding:10px; border:1px solid #00ff00; background:rgba(0,255,0,0.05); font-size:11px; line-height:1.6; white-space:pre-line; color:#fff;">
+                    <!-- Filled dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+    <!-- FLOATING AI ASSISTANT BUTTON -->
+    <div id="ai-float-btn" onclick="toggleFloatingAI()" title="AI Assistant" style="
+        position: fixed; bottom: 28px; right: 28px; z-index: 998;
+        width: 58px; height: 58px; border-radius: 50%;
+        background: linear-gradient(135deg, var(--accent), #7c3aed);
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer; box-shadow: 0 8px 25px rgba(59,130,246,0.45);
+        font-size: 1.5rem;
+        transition: transform 0.2s, box-shadow 0.2s;
+    " onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'">
+        🤖
+    </div>
+
+    <!-- FLOATING AI CHAT PANEL -->
+    <div id="ai-float-panel" style="
+        position: fixed; bottom: 100px; right: 28px; z-index: 997;
+        width: 360px; max-height: 500px;
+        background: var(--bg-panel); border: 1px solid var(--border);
+        border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        display: flex; flex-direction: column;
+        opacity: 0; pointer-events: none;
+        transform: translateY(15px) scale(0.97);
+        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    ">
+        <!-- Panel Header -->
+        <div style="padding: 16px 20px; border-bottom: 1px solid var(--border); display:flex; justify-content:space-between; align-items:center; background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(124,58,237,0.15)); border-radius: 16px 16px 0 0;">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <span style="font-size:1.4rem;">🤖</span>
+                <div>
+                    <div style="font-weight:600; font-size:0.95rem;" data-i18n="ai_float_title">AI Assistant</div>
+                    <div style="font-size:0.75rem; color:#10b981;">● Online</div>
+                </div>
+            </div>
+            <button onclick="toggleFloatingAI()" style="background:none; border:none; color:var(--text-muted); font-size:1.2rem; cursor:pointer; line-height:1;">✕</button>
+        </div>
+        <!-- Chat Display -->
+        <div id="ai-float-display" style="flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:12px; min-height:250px; max-height:300px;">
+            <div style="background: rgba(59,130,246,0.1); border-radius:12px 12px 12px 4px; padding:10px 14px; font-size:0.87rem; color:var(--text-muted); max-width:85%;" data-i18n="ai_welcome">
+                AI Assistant connected. How can I help you?
+            </div>
+        </div>
+        <!-- Input -->
+        <div style="padding:12px 16px; border-top:1px solid var(--border); display:flex; gap:8px;">
+            <input type="text" id="ai-float-input" class="cp-input" style="flex:1; border-radius:20px; padding: 8px 14px; font-size:0.875rem;" placeholder="Ask anything..." onkeypress="if(event.key==='Enter') sendFloatMessage()" data-i18n="ai_float_ph">
+            <button onclick="sendFloatMessage()" style="background: var(--accent); border:none; color:#fff; padding:8px 16px; border-radius:20px; cursor:pointer; font-weight:600; font-size:0.875rem; white-space:nowrap;" data-i18n="ai_send">Send</button>
+        </div>
+    </div>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

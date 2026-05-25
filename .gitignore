@@ -1,0 +1,8 @@
+node_modules
+.env
+test_*.js
+list_*.js
+add_*.js
+rename_*.js
+update_*.js
+find_*.js
