@@ -1,4 +1,75 @@
 
+
+// ===== SOUND SYSTEM (self-contained) =====
+let _audioCtx = null;
+let _audioEnabled = true;
+
+function playSound(type) {
+    if (!_audioEnabled) return;
+    try {
+        if (!_audioCtx) _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (_audioCtx.state === 'suspended') _audioCtx.resume();
+        const now = _audioCtx.currentTime;
+        const osc = _audioCtx.createOscillator();
+        const gain = _audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(_audioCtx.destination);
+
+        if (type === 'click') {
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(1200, now);
+            osc.frequency.exponentialRampToValueAtTime(800, now + 0.04);
+            gain.gain.setValueAtTime(0.06, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+            osc.start(now); osc.stop(now + 0.04);
+        } else if (type === 'startup') {
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(440, now);
+            osc.frequency.exponentialRampToValueAtTime(880, now + 0.5);
+            gain.gain.setValueAtTime(0, now);
+            gain.gain.linearRampToValueAtTime(0.1, now + 0.1);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.8);
+            osc.start(now); osc.stop(now + 0.8);
+        } else if (type === 'open') {
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(800, now);
+            osc.frequency.exponentialRampToValueAtTime(1100, now + 0.1);
+            gain.gain.setValueAtTime(0.08, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+            osc.start(now); osc.stop(now + 0.1);
+        } else if (type === 'close') {
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(700, now);
+            osc.frequency.exponentialRampToValueAtTime(400, now + 0.1);
+            gain.gain.setValueAtTime(0.08, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+            osc.start(now); osc.stop(now + 0.1);
+        } else if (type === 'error') {
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(300, now);
+            osc.frequency.setValueAtTime(250, now + 0.15);
+            gain.gain.setValueAtTime(0, now);
+            gain.gain.linearRampToValueAtTime(0.1, now + 0.05);
+            gain.gain.linearRampToValueAtTime(0, now + 0.15);
+            gain.gain.linearRampToValueAtTime(0.1, now + 0.2);
+            gain.gain.linearRampToValueAtTime(0, now + 0.3);
+            osc.start(now); osc.stop(now + 0.3);
+        }
+    } catch(e) { /* audio not supported */ }
+}
+
+function toggleAudio() {
+    _audioEnabled = !_audioEnabled;
+    const btn = document.getElementById('audio-indicator');
+    if (btn) btn.textContent = _audioEnabled ? '🔊' : '🔇';
+}
+
+// Play click sound on every button/card click
+document.addEventListener('click', function(e) {
+    const target = e.target.closest('button, .service-card, .app-icon');
+    if (target && target.id !== 'audio-indicator') playSound('click');
+}, true);
+
 // ===== NEW MODAL SYSTEM =====
 function openWindow(id) {
     const modal = document.getElementById(id);
@@ -83,7 +154,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-// (click sound listener is registered inside the main app scope below)
 
     'use strict';
 
@@ -426,77 +496,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     document.addEventListener('DOMContentLoaded', () => { applyLanguage(); });
-
-    // ===== AUDIO LOGIC =====
-    let audioEnabled = true;
-    let audioCtx = null;
-
-    function initAudio() {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-
-    function playSound(type) {
-        if (!audioEnabled) return;
-        try { initAudio(); } catch(e) { return; }
-        if (!audioCtx) return;
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-
-        const now = audioCtx.currentTime;
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.connect(gain); gain.connect(audioCtx.destination);
-
-        if (type === 'startup') {
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(440, now);
-            osc.frequency.exponentialRampToValueAtTime(880, now + 0.5);
-            gain.gain.setValueAtTime(0, now);
-            gain.gain.linearRampToValueAtTime(0.1, now + 0.1);
-            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.8);
-            osc.start(now); osc.stop(now + 0.8);
-        } else if (type === 'open') {
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(800, now);
-            osc.frequency.exponentialRampToValueAtTime(600, now + 0.1);
-            gain.gain.setValueAtTime(0.1, now);
-            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
-            osc.start(now); osc.stop(now + 0.1);
-        } else if (type === 'close') {
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(500, now);
-            osc.frequency.exponentialRampToValueAtTime(300, now + 0.1);
-            gain.gain.setValueAtTime(0.1, now);
-            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
-            osc.start(now); osc.stop(now + 0.1);
-        } else if (type === 'error') {
-            osc.type = 'triangle';
-            osc.frequency.setValueAtTime(300, now);
-            osc.frequency.setValueAtTime(250, now + 0.15);
-            gain.gain.setValueAtTime(0, now);
-            gain.gain.linearRampToValueAtTime(0.1, now + 0.05);
-            gain.gain.linearRampToValueAtTime(0, now + 0.15);
-            gain.gain.linearRampToValueAtTime(0.1, now + 0.2);
-            gain.gain.linearRampToValueAtTime(0, now + 0.3);
-            osc.start(now); osc.stop(now + 0.3);
-        }
-    }
-
-    function toggleAudio() {
-        audioEnabled = !audioEnabled;
-        const btn = document.getElementById('audio-indicator');
-        if (btn) btn.textContent = audioEnabled ? '🔊' : '🔇';
-    }
-
-    // Expose to global scope so onclick attributes and outside listeners work
-    window.playSound = playSound;
-    window.toggleAudio = toggleAudio;
-
-    // Global click sound for all buttons
-    document.addEventListener('click', (e) => {
-        if (e.target.closest('button') || e.target.closest('.app-icon') || e.target.closest('.service-card')) {
-            playSound('click');
-        }
-    }, true);
 
     // ===== AUTH STATE =====
     let authToken = localStorage.getItem('xp_auth_token') || null;
