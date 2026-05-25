@@ -444,6 +444,7 @@ document.addEventListener('click', (e) => {
         if (!audioEnabled) return;
         try { initAudio(); } catch(e) { return; }
         if (!audioCtx) return;
+        if (audioCtx.state === 'suspended') audioCtx.resume();
 
         const now = audioCtx.currentTime;
         const osc = audioCtx.createOscillator();
@@ -487,7 +488,8 @@ document.addEventListener('click', (e) => {
 
     function toggleAudio() {
         audioEnabled = !audioEnabled;
-        document.getElementById('audio-indicator').textContent = audioEnabled ? 'الصوت: مفعل' : 'الصوت: معطل';
+        const btn = document.getElementById('audio-indicator');
+        if (btn) btn.textContent = audioEnabled ? '🔊' : '🔇';
     }
 
     // ===== AUTH STATE =====
