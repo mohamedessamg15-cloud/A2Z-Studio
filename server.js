@@ -185,8 +185,8 @@ app.post('/api/ai', async (req, res) => {
                         m.name.includes('gemini')
                     );
                     if (validModels.length > 0) {
-                        const flashModel = validModels.find(m => m.name.includes('1.5-flash'));
-                        const proModel = validModels.find(m => m.name.includes('1.5-pro'));
+                        const flashModel = validModels.find(m => m.name.includes('flash'));
+                        const proModel = validModels.find(m => m.name.includes('pro'));
                         const fallbackModel = validModels.find(m => m.name.includes('gemini-pro'));
                         
                         if (flashModel) targetModel = flashModel.name.split('/')[1];
