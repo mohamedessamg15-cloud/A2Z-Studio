@@ -170,16 +170,47 @@ app.post('/api/ai', async (req, res) => {
     if (!apiKey) {
         return res.status(500).json({ error: 'GEMINI_API_KEY is not configured on the server.' });
     }
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-    const parts = [{ text: prompt }, ...fileParts];
-    const body = { contents: [{ role: "user", parts: parts }] };
 
     try {
+        // 1. Get available models for this specific API key
+        let targetModel = 'gemini-1.5-flash';
+        try {
+            const listResp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
+            if (listResp.ok) {
+                const listData = await listResp.json();
+                if (listData.models && listData.models.length > 0) {
+                    const validModels = listData.models.filter(m => 
+                        m.supportedGenerationMethods && 
+                        m.supportedGenerationMethods.includes('generateContent') && 
+                        m.name.includes('gemini')
+                    );
+                    if (validModels.length > 0) {
+                        const flashModel = validModels.find(m => m.name.includes('1.5-flash'));
+                        const proModel = validModels.find(m => m.name.includes('1.5-pro'));
+                        const fallbackModel = validModels.find(m => m.name.includes('gemini-pro'));
+                        
+                        if (flashModel) targetModel = flashModel.name.split('/')[1];
+                        else if (proModel) targetModel = proModel.name.split('/')[1];
+                        else if (fallbackModel) targetModel = fallbackModel.name.split('/')[1];
+                        else targetModel = validModels[0].name.split('/')[1];
+                    }
+                }
+            }
+        } catch (e) {
+            console.error('Failed to list models, using default:', e.message);
+        }
+
+        // 2. Call the selected model
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${targetModel}:generateContent?key=${apiKey}`;
+        const parts = [{ text: prompt }, ...fileParts];
+        const body = { contents: [{ role: "user", parts: parts }] };
+
         const resp = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
         });
+        
         if (!resp.ok) {
             const errText = await resp.text();
             throw new Error(`HTTP ${resp.status}: ${errText}`);
