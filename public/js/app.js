@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'port_lbl_solution': 'الحل (كيف قمت بحل المشكلة خطوة بخطوة؟):',
             'port_lbl_result': 'النتيجة بالأرقام (ما الفائدة والأثر الحقيقي؟):',
             'port_btn_trad': 'صياغة تقليدية 📝',
-            'port_btn_ai': '🤖 توليد احترافي بـ Groq AI',
+            'port_btn_ai': '🤖 توليد احترافي بـ Gemini AI',
             'port_btn_clear': 'إعادة تعيين',
             'port_res_ready': 'جاهز للعرض في بورتفوليو الخاص بك!',
             'port_res_copy': 'نسخ النص 📋',
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'out_lbl_prob': 'المشكلة التي لاحظتها على عملهم:',
             'out_lbl_offer': 'عرضك المجاني السريع لجذب انتباههم:',
             'out_btn_fast': 'صيغة سريعة 🚀',
-            'out_btn_ai': '🤖 توليد رسالة مخصصة بـ Groq AI',
+            'out_btn_ai': '🤖 توليد رسالة مخصصة بـ Gemini AI',
             'out_res_title': 'تفضل صيغة الإرسال الجاهزة للنسخ:',
             'out_res_copy': 'نسخ الرسالة 📋',
             'win_linkedin': '🧲 مقياس_مغناطيس_لينكدإن.dll',
@@ -263,7 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'port_lbl_solution': 'Solution (How did you solve it step by step?):',
             'port_lbl_result': 'Result in Numbers (What is the real impact?):',
             'port_btn_trad': 'Traditional Draft 📝',
-            'port_btn_ai': '🤖 Pro Generation by Groq AI',
+            'port_btn_ai': '🤖 Pro Generation by Gemini AI',
             'port_btn_clear': 'Reset',
             'port_res_ready': 'Ready to showcase in your portfolio!',
             'port_res_copy': 'Copy Text 📋',
@@ -279,7 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'out_lbl_prob': 'Problem you noticed in their work:',
             'out_lbl_offer': 'Your quick free offer to grab attention:',
             'out_btn_fast': 'Quick Draft 🚀',
-            'out_btn_ai': '🤖 Custom Message by Groq AI',
+            'out_btn_ai': '🤖 Custom Message by Gemini AI',
             'out_res_title': 'Here is your ready-to-send template:',
             'out_res_copy': 'Copy Message 📋',
             'win_linkedin': '🧲 LinkedIn_Magnet_Meter.dll',
@@ -589,7 +589,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===== AI CALLS =====
     const api_key = 'AIzaSyCYis-S-G8dMWIKbaM31y_dOV0dGNl50NE';
     async function callGemini(prompt, fileParts = []) {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${api_key}`;
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${api_key}`;
         const parts = [{ text: prompt }, ...fileParts];
         const body = {
             contents: [{ role: "user", parts: parts }]
@@ -913,7 +913,7 @@ document.addEventListener('DOMContentLoaded', () => {
             textEl.textContent = currentLang === 'ar' ? 'خطأ: فشل الاتصال بالذكاء الاصطناعي.' : 'Error: AI connection failed.';
         } finally {
             btn.disabled = false;
-            btn.textContent = currentLang === 'ar' ? '🤖 توليد احترافي بـ Groq AI' : '🤖 Pro Generation by Groq AI';
+            btn.textContent = currentLang === 'ar' ? '🤖 توليد احترافي بـ Gemini AI' : '🤖 Pro Generation by Gemini AI';
         }
     }
 
@@ -998,7 +998,7 @@ document.addEventListener('DOMContentLoaded', () => {
             textEl.value = currentLang === 'ar' ? 'خطأ: فشل الاتصال.' : 'Error: Connection failed.';
         } finally {
             btn.disabled = false;
-            btn.textContent = currentLang === 'ar' ? '🤖 توليد رسالة مخصصة بـ Groq AI' : '🤖 Custom Message by Groq AI';
+            btn.textContent = currentLang === 'ar' ? '🤖 توليد رسالة مخصصة بـ Gemini AI' : '🤖 Custom Message by Gemini AI';
         }
     }
 
