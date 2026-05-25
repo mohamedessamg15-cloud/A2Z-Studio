@@ -528,22 +528,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!user || !pass) { errDiv.textContent = 'Error: Please fill in all fields.'; return; }
 
-        localStorage.setItem('xp_auth_token', 'local-token-123');
-        localStorage.setItem('xp_username', user);
-        authToken = 'local-token-123'; currentUser = user;
-        
-        document.getElementById('login-screen').style.display = 'none';
-        const welcomeEl = document.getElementById('welcome-msg');
-        if (welcomeEl) welcomeEl.textContent = currentUser;
-        playSound('startup');
-        initUserSession();
+        try {
+            const res = await fetch('/api/' + action, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: user, password: pass })
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Authentication failed');
+
+            localStorage.setItem('xp_auth_token', data.token);
+            localStorage.setItem('xp_username', data.username);
+            authToken = data.token; currentUser = data.username;
+            
+            document.getElementById('login-screen').style.display = 'none';
+            const welcomeEl = document.getElementById('welcome-msg');
+            if (welcomeEl) welcomeEl.textContent = currentUser;
+            playSound('startup');
+            initUserSession();
+        } catch (err) {
+            errDiv.textContent = 'Error: ' + err.message;
+            playSound('error');
+        }
     }
 
     async function initUserSession() {
         try {
-            const savedText = localStorage.getItem('notepad_text') || '';
-            const notepadEl = document.getElementById('notepad-text');
-            if (notepadEl) notepadEl.value = savedText;
+            const res = await fetch('/api/settings', { headers: { 'Authorization': 'Bearer ' + authToken } });
+            if (res.ok) {
+                const data = await res.json();
+                const notepadEl = document.getElementById('notepad-text');
+                if (notepadEl) notepadEl.value = data.notepad_text || '';
+            }
         } catch (e) { console.error(e); }
         loadCrmTable();
     }
@@ -559,9 +575,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function saveNotepad() {
         const val = document.getElementById('notepad-text').value;
         clearTimeout(notepadTimeout);
-        notepadTimeout = setTimeout(() => {
+        notepadTimeout = setTimeout(async () => {
             if (authToken) {
-                localStorage.setItem('notepad_text', val);
+                await fetch('/api/settings/notepad', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + authToken },
+                    body: JSON.stringify({ text: val })
+                });
             }
         }, 500);
     }
@@ -716,9 +736,11 @@ document.addEventListener('DOMContentLoaded', () => {
     async function loadCrmTable() {
         if (!authToken) return;
         try {
-            const savedCrm = localStorage.getItem('crm_data');
-            crmData = savedCrm ? JSON.parse(savedCrm) : [];
-            renderCrmTable();
+            const res = await fetch('/api/crm', { headers: { 'Authorization': 'Bearer ' + authToken } });
+            if (res.ok) {
+                crmData = await res.json();
+                renderCrmTable();
+            }
         } catch(e) { console.error(e); }
     }
 
@@ -727,31 +749,39 @@ document.addEventListener('DOMContentLoaded', () => {
         const project = document.getElementById('crm-project').value.trim();
         const status = document.getElementById('crm-status').value;
         if (!client || !authToken) return;
-        
-        crmData.push({ id: Date.now(), client, project, status });
-        localStorage.setItem('crm_data', JSON.stringify(crmData));
-        
-        document.getElementById('crm-client').value = '';
-        document.getElementById('crm-project').value = '';
-        loadCrmTable();
+        try {
+            const res = await fetch('/api/crm', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + authToken },
+                body: JSON.stringify({ client, project, status })
+            });
+            if (res.ok) {
+                document.getElementById('crm-client').value = '';
+                document.getElementById('crm-project').value = '';
+                loadCrmTable();
+            }
+        } catch(e) { console.error(e); }
     }
 
     async function deleteCrmClient(id) {
-        if (!confirm(currentLang === 'ar' ? 'حذف بيانات العميل؟' : 'Delete client data?')) return;
+        if (!confirm('حذف بيانات العميل؟')) return;
         if (!authToken) return;
-        crmData = crmData.filter(c => c.id !== id);
-        localStorage.setItem('crm_data', JSON.stringify(crmData));
-        loadCrmTable();
+        try {
+            await fetch('/api/crm/' + id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + authToken } });
+            loadCrmTable();
+        } catch(e) {}
     }
 
     async function updateCrmStatus(id, newStatus) {
         if (!authToken) return;
-        const c = crmData.find(c => c.id === id);
-        if (c) {
-            c.status = newStatus;
-            localStorage.setItem('crm_data', JSON.stringify(crmData));
+        try {
+            await fetch('/api/crm/' + id, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + authToken },
+                body: JSON.stringify({ status: newStatus })
+            });
             loadCrmTable();
-        }
+        } catch(e) {}
     }
 
     function renderCrmTable() {
