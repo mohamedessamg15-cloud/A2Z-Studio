@@ -597,15 +597,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!resp.ok) throw new Error(data.error || `HTTP ${resp.status}`);
         return data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
     };
-        const resp = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body)
-        });
-        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-        const data = await resp.json();
-        return data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-    }
 
     // AI FIXER (CHAT)
     async function sendChatMessage() {
